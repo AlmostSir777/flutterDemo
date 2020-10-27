@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'setting_timer_page.dart';
+
 class SettingController extends StatefulWidget {
   @override
   _SettingControllerState createState() => _SettingControllerState();
@@ -58,9 +60,7 @@ class _SettingControllerState extends State<SettingController>
       body: TabBarView(
         controller: tabController,
         children: <Widget>[
-          Container(
-            color: Colors.yellow,
-          ),
+          SettingTimerPage(),
           Container(
             color: Colors.red,
           ),
