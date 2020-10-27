@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../controller/homePage/home_page.dart';
 import '../controller/settingPage/setting_page.dart';
-import '../test_model.dart';
+import '../model/test_model.dart';
 
 class RootPage extends StatefulWidget {
   @override
