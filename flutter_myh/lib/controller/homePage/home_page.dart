@@ -229,8 +229,8 @@ class _StarViewState extends State<StarView>
           print('点击了第${index + 1}张图片');
         },
         onIndexChanged: (value) {
-          int index = value;
-          print('滚动到了第${index + 1}张图片');
+          // int index = value;
+          // print('滚动到了第${index + 1}张图片');
         },
         itemBuilder: (context, index) {
           return _buildImage(bannerArr[index], 1);
