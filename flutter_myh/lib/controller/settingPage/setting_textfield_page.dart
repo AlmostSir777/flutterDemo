@@ -27,9 +27,9 @@ class TextFieldDemoView extends StatefulWidget {
   _TextFieldDemoViewState createState() => _TextFieldDemoViewState();
 }
 
-class _TextFieldDemoViewState extends State<TextFieldDemoView> {
+class _TextFieldDemoViewState extends State<TextFieldDemoView>
+    with WidgetsBindingObserver {
   TextEditingController _editingController;
-  ScrollController _scrollController;
   FocusNode _focusNode;
   @override
   void initState() {
@@ -47,6 +47,26 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView> {
     Future.delayed(Duration(milliseconds: 500), () {
       FocusScope.of(context).requestFocus(_focusNode);
     });
+    WidgetsBinding.instance.addObserver(this);
+    print('initState');
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state.toString());
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('didChangeDependencies');
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(TextFieldDemoView oldWidget) {
+    print('didUpdateWidget');
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -54,10 +74,13 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView> {
     _focusNode?.dispose();
     _editingController?.dispose();
     super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    print('dispose');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return SingleChildScrollView(
       child: Center(
         child: SizedBox(
@@ -68,7 +91,7 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView> {
             child: Container(
               color: Colors.red,
               child: TextField(
-                cursorColor: Colors.red,
+                cursorColor: Colors.white,
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -85,5 +108,17 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView> {
         ),
       ),
     );
+  }
+
+  @override
+  void reassemble() {
+    print('reassemble');
+    super.reassemble();
+  }
+
+  @override
+  void deactivate() {
+    print('deactivate');
+    super.deactivate();
   }
 }
