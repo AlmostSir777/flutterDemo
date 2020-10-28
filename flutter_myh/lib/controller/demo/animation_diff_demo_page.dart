@@ -58,6 +58,7 @@ class _AnimationDiffDemoPageState extends State<AnimationDiffDemoPage>
   }
 }
 
+// ignore: must_be_immutable
 class StaggedAnimation extends StatelessWidget {
   final Animation<double> controller;
   Animation<double> bezier;
