@@ -3,6 +3,7 @@ import 'package:flutter/animation.dart';
 
 import '../demo/animation_demo_page.dart';
 import '../demo/animation_demo_custom_page.dart';
+import '../demo/animation_builder_demo.page.dart';
 
 class SettingAnimationPage extends StatefulWidget {
   @override
@@ -53,6 +54,7 @@ class _SettingAnimationPageState extends State<SettingAnimationPage>
     List<String> list = [
       '单一动画',
       '组合动画',
+      'animationBuilder应用',
     ];
     return ListView.builder(
         itemCount: list.length,
@@ -64,9 +66,13 @@ class _SettingAnimationPageState extends State<SettingAnimationPage>
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return AnimationDemoPage();
                 }));
-              } else {
+              } else if (row == 1) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return CustomAnimationView();
+                }));
+              } else if (row == 2) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return AnimationBuildDemoPage();
                 }));
               }
             },
