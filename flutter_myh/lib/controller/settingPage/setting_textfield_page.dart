@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../base/message_dialog.dart';
+
 class SettingTextFieldPage extends StatefulWidget {
   @override
   _SettingTextFieldPageState createState() => _SettingTextFieldPageState();
@@ -101,6 +103,15 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
                 maxLines: 40,
                 onChanged: (String value) {
                   print(value);
+                  if (_editingController.text.length > 10) {
+                    showMessage('提示',
+                        '内容不能超过10个字dsakdasdkasjkdjasjdjkasldjasjkdjkasjkdjkasjkdjkasjkdsaj',
+                        (MessageCallBackState state) {
+                      print(state == MessageCallBackState.MessageCallBackConfirm
+                          ? '点击了确定'
+                          : '点击了取消');
+                    }, context);
+                  }
                 },
               ),
             ),
