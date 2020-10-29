@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'config.dart';
 
-void showLoadingWithText(String loadingMessage) {
+void showLoadingWithText({
+  String text,
+}) {
   showDialog(
     context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
-    builder: (_) => LoadingDialog(text: loadingMessage),
+    builder: (_) => LoadingDialog(text: text),
   );
 }
 

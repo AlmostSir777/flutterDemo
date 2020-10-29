@@ -9,13 +9,17 @@ enum MessageCallBackState {
 
 typedef void CallBackEvent(MessageCallBackState state);
 
-void showMessage(String title, String message, CallBackEvent callBackEvent) {
+void showMessage({
+  String title,
+  String content,
+  CallBackEvent callBackEvent,
+}) {
   showDialog(
     context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
     builder: (context) => MessageDialog(
       title: title,
-      content: message,
+      content: content,
       callBackEvent: callBackEvent,
     ),
   );
@@ -109,7 +113,9 @@ class MessageDialog extends Dialog {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    callBackEvent(MessageCallBackState.MessageCallBackCancel);
+                    if (callBackEvent != null) {
+                      callBackEvent(MessageCallBackState.MessageCallBackCancel);
+                    }
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -132,7 +138,10 @@ class MessageDialog extends Dialog {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    callBackEvent(MessageCallBackState.MessageCallBackConfirm);
+                    if (callBackEvent != null) {
+                      callBackEvent(
+                          MessageCallBackState.MessageCallBackConfirm);
+                    }
                     Navigator.pop(context);
                   },
                   child: Container(
