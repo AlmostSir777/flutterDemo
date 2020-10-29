@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../demo/simple_widget_demo.dart';
+import '../demo/page_view_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -12,7 +13,10 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
   List<String> _list;
   @override
   void initState() {
-    _list = ['ConstrainedBox 运用'];
+    _list = [
+      'ConstrainedBox 运用',
+      'pageView 运用',
+    ];
     super.initState();
   }
 
@@ -36,6 +40,13 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                       context,
                       MaterialPageRoute(builder: (context) {
                         return SampleWidgetDemoPage();
+                      }),
+                    );
+                  } else if (row == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return PageViewDemoPage();
                       }),
                     );
                   }
