@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import './config.dart';
 
 enum MessageCallBackState {
-  MessageCallBackConfirm,
-  MessageCallBackCancel,
+  MessageCallBackConfirm, //确定
+  MessageCallBackCancel, // 取消
 }
 
 typedef void CallBackEvent(MessageCallBackState state);

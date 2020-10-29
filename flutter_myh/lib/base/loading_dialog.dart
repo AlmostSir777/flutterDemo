@@ -45,7 +45,7 @@ class LoadingDialog extends Dialog {
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: Text(
-                    text,
+                    text ?? '',
                     style: TextStyle(
                       fontSize: 12.0,
                     ),
