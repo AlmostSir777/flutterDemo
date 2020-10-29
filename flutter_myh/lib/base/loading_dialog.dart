@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-void showLoadingWithText(String loadingMessage, BuildContext context) {
+import 'config.dart';
+
+void showLoadingWithText(String loadingMessage) {
   showDialog(
-    context: context,
+    context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
-    builder: (context) => LoadingDialog(text: loadingMessage),
+    builder: (_) => LoadingDialog(text: loadingMessage),
   );
 }
 
-void hideLoading(BuildContext context) {
-  Navigator.pop(context);
+void hideLoading() {
+  Navigator.pop(navigatorKey.currentState.overlay.context);
 }
 
 class LoadingDialog extends Dialog {

@@ -14,13 +14,13 @@ class _SettingTimerPageState extends State<SettingTimerPage>
   Timer _timer;
 
   void startTimer() {
-    showLoadingWithText('加载中...', context);
+    showLoadingWithText('加载中...');
     _timer?.cancel();
     final Duration duration = Duration(seconds: 1);
     _timer = Timer.periodic(duration, (Timer timer) {
       num--;
       if (num == 56) {
-        hideLoading(context);
+        hideLoading();
         num = 60;
         _timer?.cancel();
       }

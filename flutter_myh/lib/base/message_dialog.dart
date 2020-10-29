@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './config.dart';
+
 enum MessageCallBackState {
   MessageCallBackConfirm,
   MessageCallBackCancel,
@@ -7,10 +9,9 @@ enum MessageCallBackState {
 
 typedef void CallBackEvent(MessageCallBackState state);
 
-void showMessage(String title, String message, CallBackEvent callBackEvent,
-    BuildContext context) {
+void showMessage(String title, String message, CallBackEvent callBackEvent) {
   showDialog(
-    context: context,
+    context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
     builder: (context) => MessageDialog(
       title: title,
