@@ -35,8 +35,10 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
   TextEditingController _editingController;
   FocusNode _focusNode;
   RegExp _regExp;
+  int _limitLength;
   @override
   void initState() {
+    _limitLength = 20;
     _focusNode = FocusNode();
     _editingController = TextEditingController.fromValue(TextEditingValue(
       text: widget?.content ?? '',
@@ -97,6 +99,7 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
             child: Container(
               color: Colors.red,
               child: TextField(
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 cursorColor: Colors.white,
                 style: TextStyle(
                   color: Colors.white,
@@ -104,10 +107,11 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
                 focusNode: _focusNode,
                 controller: _editingController,
                 inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(100),
+                  LengthLimitingTextInputFormatter(_limitLength),
                   BlacklistingTextInputFormatter(_regExp),
                 ],
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(8.0),
                   border: InputBorder.none,
                   hintText: '请输入文本',
                   hintStyle: TextStyle(
@@ -117,11 +121,10 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
                 maxLines: 10,
                 onChanged: (String value) {
                   print(value);
-                  if (_editingController.text.length > 10) {
+                  if (_editingController.text.length >= _limitLength) {
                     showMessage(
                       title: '提示',
-                      content:
-                          '内容不能超过10个字dsakdasdkasjkdjasjdjkasldjasjkdjkasjkdjkasjkdjkasjkdsaj',
+                      content: '内容不能超过${_limitLength?.toString()}个字',
                       callBackEvent: (MessageCallBackState state) {
                         print(
                             state == MessageCallBackState.MessageCallBackConfirm

@@ -33,6 +33,8 @@ class _HomeDetailVCState extends State<HomeDetailVC>
     return Scaffold(
       appBar: AppBar(
         title: Text('详情'),
+        leading: null,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: RaisedButton(
