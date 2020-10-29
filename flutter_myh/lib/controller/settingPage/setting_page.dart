@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myh/controller/settingPage/setting_sample_page.dart';
 
 import 'setting_timer_page.dart';
 import 'setting_textfield_page.dart';
@@ -15,11 +16,16 @@ class _SettingControllerState extends State<SettingController>
   List tabList;
   @override
   void initState() {
-    tabList = ['电影', '读书', '新闻'];
+    tabList = [
+      'timer',
+      'textField',
+      'animation demo',
+      'sample widget demo',
+    ];
     tabController = TabController(
       length: tabList.length,
       vsync: this,
-      initialIndex: 1,
+      initialIndex: 0,
     );
     super.initState();
   }
@@ -65,6 +71,7 @@ class _SettingControllerState extends State<SettingController>
           SettingTimerPage(),
           SettingTextFieldPage(),
           SettingAnimationPage(),
+          SettingSampleDemoPage(),
         ],
       ),
     );
