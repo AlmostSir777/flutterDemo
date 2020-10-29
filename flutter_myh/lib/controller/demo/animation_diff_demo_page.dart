@@ -26,9 +26,11 @@ class _AnimationDiffDemoPageState extends State<AnimationDiffDemoPage>
 
   Future<void> _playAnimation() async {
     try {
-      await controller.forward().orCancel; //开始
-      await controller.reverse().orCancel; //反向
-    } on TickerCanceled {}
+      await controller.forward()?.orCancel;
+      await controller.reverse()?.orCancel;
+    } on TickerCanceled {
+      print('animation falied');
+    }
   }
 
   @override
