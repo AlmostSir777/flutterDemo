@@ -25,7 +25,7 @@ class _AnimationDiffDemoPageState extends State<AnimationDiffDemoPage>
   Future _playAnimation() async {
     try {
       await _controller.forward()?.orCancel;
-      await _controller.reverse()?.orCancel;
+      // await _controller.reverse()?.orCancel;
     } on TickerCanceled {
       print('animation falied');
     }
