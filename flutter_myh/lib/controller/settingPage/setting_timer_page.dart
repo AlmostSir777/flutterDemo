@@ -1,6 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+
+import '../../base/loading_dialog.dart';
 
 class SettingTimerPage extends StatefulWidget {
   @override
@@ -13,10 +14,16 @@ class _SettingTimerPageState extends State<SettingTimerPage>
   Timer _timer;
 
   void startTimer() {
+    showLoadingWithText(text: '加载中...');
     _timer?.cancel();
     final Duration duration = Duration(seconds: 1);
     _timer = Timer.periodic(duration, (Timer timer) {
       num--;
+      if (num == 56) {
+        hideLoading();
+        num = 60;
+        _timer?.cancel();
+      }
       if (num <= 0) {
         num = 60;
         _timer?.cancel();

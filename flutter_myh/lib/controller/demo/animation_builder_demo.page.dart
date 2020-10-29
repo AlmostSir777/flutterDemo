@@ -9,7 +9,7 @@ class AnimationBuildDemoPage extends StatefulWidget {
 class _AnimationBuildDemoPageState extends State<AnimationBuildDemoPage>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  Animation _animation;
+  Animation<int> _animation;
 
   @override
   void initState() {
@@ -22,6 +22,9 @@ class _AnimationBuildDemoPageState extends State<AnimationBuildDemoPage>
           0.8,
           curve: Curves.easeIn,
         )));
+    _animation.addListener(() {
+      // print(_animation.value);
+    });
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reverse();
@@ -46,9 +49,13 @@ class _AnimationBuildDemoPageState extends State<AnimationBuildDemoPage>
       body: AnimatedBuilder(
         animation: _animation,
         builder: (_, __) {
-          return Container(
-            child: __,
-            color: Color.fromARGB(_animation.value, 255, 1, 1),
+          return Center(
+            child: Container(
+              width: _animation.value.toDouble() + 80.0,
+              height: _animation.value.toDouble() + 80.0,
+              child: __,
+              color: Color.fromARGB(_animation.value, 255, 1, 1),
+            ),
           );
         },
         child: Center(
