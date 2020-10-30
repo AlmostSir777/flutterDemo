@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'config.dart';
 
+enum HudState {
+  loadingState,
+  toastState,
+}
 void showLoadingWithText({
   String text,
+  HudState state,
 }) {
   showDialog(
     context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
-    builder: (_) => LoadingDialog(text: text),
+    builder: (_) => LoadingDialog(
+      text: text,
+      state: state,
+    ),
   );
 }
 
@@ -18,42 +26,71 @@ void hideLoading() {
 
 class LoadingDialog extends Dialog {
   final String text;
+  final HudState state;
   LoadingDialog({
     Key key,
     @required this.text,
+    this.state = HudState.loadingState,
   });
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency, //透明类型
       child: Center(
-        child: SizedBox(
-          width: 120,
-          height: 120,
-          child: Container(
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        child: state == HudState.loadingState
+            ? _buildLoadingView()
+            : _buildToastView(context),
+      ),
+    );
+  }
+
+  Widget _buildLoadingView() {
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: Container(
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: Text(
+                text ?? '',
+                style: TextStyle(
+                  fontSize: 12.0,
+                ),
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    text ?? '',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildToastView(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: 30,
+        minWidth: 80,
+        maxWidth: MediaQuery.of(context).size.width - 60,
+        maxHeight: 100,
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 15,
+            color: Color(0xff25272c),
           ),
+          maxLines: 6,
         ),
       ),
     );
