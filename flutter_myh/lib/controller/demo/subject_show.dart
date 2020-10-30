@@ -36,7 +36,7 @@ class _SubjectViewState extends State<SubjectView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildTop(context),
+              SubjectTop(),
               Selector<SubjectListModel, List<SubjectModel>>(
                   builder: (_, list, __) {
                     return SubjectSectionView(
@@ -50,13 +50,26 @@ class _SubjectViewState extends State<SubjectView> {
       },
     );
   }
+}
 
-  Widget _buildTop(BuildContext context) {
+class SubjectTop extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+            child: Text(
+              '学科筛选：${context.watch<SubjectListModel>().list.length}个学科，${context.watch<SubjectListModel>().selectList.length}个被选学科',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+            ),
+          ),
           Consumer<SubjectListModel>(builder: (_, viewModel, __) {
             return Container(
               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
@@ -82,7 +95,7 @@ class _SubjectViewState extends State<SubjectView> {
                         SubjectModel(name: item, isSelect: false);
                     list.add(model);
                   }
-                  viewModel.addList(list);
+                  context.read<SubjectListModel>().addList(list);
                 },
                 child: _buildButton(SubjectModel(name: '全部学科')),
               ),

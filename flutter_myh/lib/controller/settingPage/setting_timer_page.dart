@@ -49,14 +49,14 @@ class _SettingTimerPageState extends State<SettingTimerPage>
     super.build(context);
     return Container(
       child: Center(
-        child: Row(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             FlatButton(
               onPressed: () {
-                if (num == 60) {
-                  _loadCodeNetWork();
-                }
+                // if (num == 60) {
+                _loadCodeNetWork();
+                // }
               },
               child: Text(
                 '启动',

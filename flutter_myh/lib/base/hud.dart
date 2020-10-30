@@ -57,33 +57,45 @@ class MYHHud extends Dialog {
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              top: 20,
+      child: text != null
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 20,
+                    bottom: 20,
+                  ),
+                  child: CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 20,
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: Text(
+                    text ?? '',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: CircularProgressIndicator(),
+                ),
+              ],
             ),
-            child: CircularProgressIndicator(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 20.0,
-              bottom: 20,
-              left: 10,
-              right: 10,
-            ),
-            child: Text(
-              text ?? '',
-              style: TextStyle(
-                fontSize: 12.0,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -91,12 +103,6 @@ class MYHHud extends Dialog {
     return Center(
         child: Container(
       alignment: Alignment.center,
-      constraints: BoxConstraints(
-        minHeight: 10,
-        minWidth: 80,
-        maxWidth: MediaQuery.of(context).size.width - 60,
-        maxHeight: 100,
-      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
