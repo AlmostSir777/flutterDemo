@@ -50,32 +50,39 @@ class MYHHud extends Dialog {
   }
 
   Widget _buildLoadingView() {
-    return SizedBox(
-      width: 120,
-      height: 120,
-      child: Container(
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
+    return Container(
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: Text(
-                text ?? '',
-                style: TextStyle(
-                  fontSize: 12.0,
-                ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              top: 20,
+            ),
+            child: CircularProgressIndicator(),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 20.0,
+              bottom: 20,
+              left: 10,
+              right: 10,
+            ),
+            child: Text(
+              text ?? '',
+              style: TextStyle(
+                fontSize: 12.0,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

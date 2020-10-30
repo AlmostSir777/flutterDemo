@@ -6,7 +6,7 @@ import '../../model/test_model.dart';
 import 'home_detail_vc.dart';
 import '../demo/padding_align_center_demo.dart';
 import '../demo/send_demo.dart';
-import 'push_route_tool.dart';
+import '../../base/push_route_tool.dart';
 import '../demo/subject_page.dart';
 
 class HomeActivity extends StatefulWidget {

@@ -17,7 +17,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
     _list = [
       'ConstrainedBox 运用',
       'pageView 运用',
-      '动画运用',
+      '手势运用',
     ];
     super.initState();
   }
