@@ -6,28 +6,33 @@ enum HudState {
   loadingState,
   toastState,
 }
-void showLoadingWithText({
+void showHudWithText({
   String text,
   HudState state,
 }) {
   showDialog(
     context: navigatorKey.currentState.overlay.context,
     barrierDismissible: false,
-    builder: (_) => LoadingDialog(
+    builder: (_) => MYHHud(
       text: text,
       state: state,
     ),
   );
+  if (state == HudState.toastState) {
+    Future.delayed(Duration(seconds: 2), () {
+      hideHud();
+    });
+  }
 }
 
-void hideLoading() {
+void hideHud() {
   Navigator.pop(navigatorKey.currentState.overlay.context);
 }
 
-class LoadingDialog extends Dialog {
+class MYHHud extends Dialog {
   final String text;
   final HudState state;
-  LoadingDialog({
+  MYHHud({
     Key key,
     @required this.text,
     this.state = HudState.loadingState,
@@ -76,23 +81,41 @@ class LoadingDialog extends Dialog {
   }
 
   Widget _buildToastView(BuildContext context) {
-    return ConstrainedBox(
+    return Center(
+        child: Container(
+      alignment: Alignment.center,
       constraints: BoxConstraints(
-        minHeight: 30,
+        minHeight: 10,
         minWidth: 80,
         maxWidth: MediaQuery.of(context).size.width - 60,
         maxHeight: 100,
       ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 15,
-            color: Color(0xff25272c),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 10,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 15,
+                color: Color(0xff25272c),
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          maxLines: 6,
-        ),
+        ],
       ),
-    );
+    ));
   }
 }

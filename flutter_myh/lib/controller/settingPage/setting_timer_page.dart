@@ -14,13 +14,20 @@ class _SettingTimerPageState extends State<SettingTimerPage>
   Timer _timer;
 
   void startTimer() async {
-    showLoadingWithText(text: '加载中...');
+    showHudWithText(
+      text: '加载中...',
+      state: HudState.loadingState,
+    );
     _timer?.cancel();
     final Duration duration = Duration(seconds: 1);
     _timer = Timer.periodic(duration, (Timer timer) {
       num--;
-      if (num == 56) {
-        showLoadingWithText(text: '发送成功', state: HudState.toastState);
+      if (num == 58) {
+        hideHud();
+        showHudWithText(
+            text:
+                '发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda',
+            state: HudState.toastState);
         num = 60;
         _timer?.cancel();
       }
