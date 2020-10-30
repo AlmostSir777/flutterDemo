@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../../base/loading_dialog.dart';
+import '../../base/hud.dart';
 
 class SettingTimerPage extends StatefulWidget {
   @override
@@ -13,24 +13,23 @@ class _SettingTimerPageState extends State<SettingTimerPage>
   int num = 60;
   Timer _timer;
 
-  void startTimer() async {
+  void _loadCodeNetWork() async {
     showHudWithText(
-      text: '加载中...',
+      text: '获取验证码中...',
       state: HudState.loadingState,
     );
+    await Future.delayed(Duration(seconds: 3));
+    await hideHud();
+    // showHudWithText(text: '发送成功', state: HudState.toastState);
+    Toast.toast('发送成功', context: context);
+    _startTimer();
+  }
+
+  void _startTimer() async {
     _timer?.cancel();
     final Duration duration = Duration(seconds: 1);
     _timer = Timer.periodic(duration, (Timer timer) {
       num--;
-      if (num == 58) {
-        hideHud();
-        showHudWithText(
-            text:
-                '发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda发送成功dsadasdasdasdasdasdasdasdasdasdasdasdasda',
-            state: HudState.toastState);
-        num = 60;
-        _timer?.cancel();
-      }
       if (num <= 0) {
         num = 60;
         _timer?.cancel();
@@ -56,7 +55,7 @@ class _SettingTimerPageState extends State<SettingTimerPage>
             FlatButton(
               onPressed: () {
                 if (num == 60) {
-                  startTimer();
+                  _loadCodeNetWork();
                 }
               },
               child: Text(

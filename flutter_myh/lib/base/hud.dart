@@ -25,7 +25,7 @@ void showHudWithText({
   }
 }
 
-void hideHud() {
+Future<void> hideHud() async {
   Navigator.pop(navigatorKey.currentState.overlay.context);
 }
 
@@ -117,5 +117,69 @@ class MYHHud extends Dialog {
         ],
       ),
     ));
+  }
+}
+
+class Toast {
+  static OverlayEntry _overlayEntry; //toast靠它添加到屏幕
+  static bool _showing = false; // toast是否正在showing
+  static DateTime _startTime; //开启一个新toast的当前时间，用于对比时间
+  static String _msg;
+  static BuildContext _context;
+  static void toast(
+    String msg, {
+    BuildContext context,
+  }) async {
+    assert(msg != null);
+    _msg = msg;
+    _context = context;
+    _startTime = DateTime.now();
+    // 获取overlayState
+    OverlayState overlayState = Overlay.of(_context);
+    _showing = true;
+    if (_overlayEntry == null) {
+      _overlayEntry = OverlayEntry(builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: AnimatedOpacity(
+              opacity: _showing ? 1.0 : 0.0,
+              duration: _showing
+                  ? Duration(milliseconds: 100)
+                  : Duration(microseconds: 400),
+              child: _buildToastWidget(),
+            ),
+          ),
+        );
+      });
+      overlayState.insert(_overlayEntry);
+    } else {
+      // 重新绘制
+      _overlayEntry.markNeedsBuild();
+    }
+    await Future.delayed(Duration(milliseconds: 2000)); //等待两秒
+    if (DateTime.now().difference(_startTime).inMilliseconds >= 2000) {
+      _showing = false;
+      _overlayEntry.markNeedsBuild();
+    }
+  }
+
+//toast绘制
+  static _buildToastWidget() {
+    return Center(
+      child: Card(
+        color: Colors.black26,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          child: Text(
+            _msg,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
