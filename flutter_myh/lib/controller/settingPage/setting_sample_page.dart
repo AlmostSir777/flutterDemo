@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../demo/simple_widget_demo.dart';
 import '../demo/page_view_demo_page.dart';
 import '../demo/gesture_demo_page.dart';
+import '../demo/refresh_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'ConstrainedBox 运用',
       'pageView 运用',
       '手势运用',
+      '刷新组件',
     ];
     super.initState();
   }
@@ -57,6 +59,13 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                       context,
                       MaterialPageRoute(builder: (context) {
                         return GestureDemoPage();
+                      }),
+                    );
+                  } else if (row == 3) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return RefreshDemoPage();
                       }),
                     );
                   }
