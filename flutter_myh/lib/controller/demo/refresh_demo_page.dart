@@ -11,6 +11,7 @@ class RefreshDemoPage extends StatefulWidget {
 class _RefreshDemoPageState extends State<RefreshDemoPage> {
   EasyRefreshController _controller;
   List<int> _list;
+  RefreshListModel _listModel;
 
   @override
   void initState() {
@@ -21,10 +22,11 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
 
   void _loadDefaultData() {
     _list = [1, 2, 3, 4];
+    _listModel = RefreshListModel([1, 2, 3, 4]);
   }
 
   Future<void> _getData(bool isLoadMore) async {
-    await Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 3), () {
       if (isLoadMore) {
         int currentLength = _list.length;
         List<int> addList = [];
@@ -40,12 +42,12 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
           _list = [1, 2, 3, 4];
         });
       }
+      isLoadMore ? _controller.finishLoad() : _controller.finishRefresh();
+      Toast.toast(
+        isLoadMore ? '获取数据成功' : '刷新数据成功',
+        context: context,
+      );
     });
-    Toast.toast(
-      isLoadMore ? '获取数据成功' : '刷新数据成功',
-      context: context,
-    );
-    isLoadMore ? _controller.finishLoad() : _controller.finishRefresh();
   }
 
   @override
@@ -57,55 +59,71 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('easyrefresh运用'),
-      ),
-      body: SafeArea(
-        child: _buildSampleDemo(),
-      ),
-    );
+        appBar: AppBar(
+          title: Text('easyrefresh运用'),
+        ),
+        body: ChangeNotifierProvider(
+          create: (context) => _listModel,
+          builder: (_, __) {
+            return Consumer<RefreshListModel>(builder: (_, listModel, __) {
+              return _buildSampleDemo(context, listModel.list);
+            });
+          },
+        )
+        // child: buildCustomRefresh(context),
+
+        );
   }
 
 // 基础
-  Widget _buildSampleDemo() {
+  Widget _buildSampleDemo(BuildContext context, List<int> list) {
     return EasyRefresh(
+      footer: ClassicalFooter(
+        safeArea: true,
+        overScroll: true,
+      ),
       controller: _controller,
       enableControlFinishLoad: true,
       enableControlFinishRefresh: true,
       child: ListView.builder(
         padding: EdgeInsets.only(
           top: 10,
+          bottom: 49,
         ),
         itemBuilder: (_, int row) {
           return Container(
+            height: 49,
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(
               left: 10,
             ),
-            child: Text('第${_list[row]}行'),
+            child: Text('第${list[row]}行'),
           );
         },
-        itemCount: _list.length,
+        itemCount: list.length,
       ),
       onLoad: () async {
-        _getData(true);
+        await _listModel.getData(true);
+        _controller.finishLoad(noMore: list.length >= 40);
       },
       onRefresh: () async {
-        _getData(false);
+        await _listModel.getData(false);
+        _controller.resetLoadState();
+        _controller.finishRefresh();
       },
     );
   }
 
-  Widget _buildCustomRefresh(BuildContext context) {
+  Widget buildCustomRefresh(BuildContext context) {
     return EasyRefresh.custom(
       enableControlFinishLoad: true,
       enableControlFinishRefresh: true,
       controller: _controller,
       header: ClassicalHeader(),
       footer: ClassicalFooter(
-        safeArea: true,
-        overScroll: true,
-      ),
+          // safeArea: true,
+          // overScroll: true,
+          ),
       onRefresh: () => _getData(false),
       onLoad: () => _getData(true),
       slivers: <Widget>[
@@ -113,6 +131,7 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
           delegate: SliverChildBuilderDelegate(
             (context, int row) {
               return Container(
+                height: 49,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(
                   left: 10,
@@ -125,5 +144,40 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
         ),
       ],
     );
+  }
+}
+
+class RefreshListModel extends ChangeNotifier {
+  List<int> _list;
+  List<int> get list => _list;
+  set list(List<int> value) {
+    _list = value;
+    notifyListeners();
+  }
+
+  RefreshListModel(this._list) {
+    if (_list == null) {
+      _list = [1, 2, 3, 4];
+    }
+  }
+  void addListValue(List<int> value) {
+    _list.addAll(value);
+    notifyListeners();
+  }
+
+  Future<void> getData(bool isLoadMore) async {
+    await Future.delayed(Duration(seconds: 3), () {
+      if (isLoadMore) {
+        int currentLength = _list.length;
+        List<int> addList = [];
+        for (int i = 1; i <= 10; i++) {
+          addList.add(i + currentLength);
+        }
+        addListValue(addList);
+      } else {
+        // _list.clear();
+        this.list = [1, 2, 3, 4];
+      }
+    });
   }
 }
