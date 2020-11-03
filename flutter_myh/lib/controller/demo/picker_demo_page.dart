@@ -23,7 +23,7 @@ class _PickerTimeViewState extends State<PickerTimeView> {
     _fixedExtentScrollController = FixedExtentScrollController(initialItem: 4);
     _list = [];
     for (int i = 0; i < 24; i++) {
-      _list.add(i < 10 ? '0${i}' : '${i}');
+      _list.add(i < 10 ? '0${i.toString()}' : '${i.toString()}');
     }
     super.initState();
   }
@@ -31,6 +31,7 @@ class _PickerTimeViewState extends State<PickerTimeView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       height: 300,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -73,7 +74,10 @@ class _PickerTimeViewState extends State<PickerTimeView> {
             ),
           ),
           Container(
+            color: Colors.white,
             height: 250,
+            // width: 80,
+            alignment: Alignment.center,
             child: CupertinoPicker.builder(
               childCount: _list.length,
               itemExtent: 36.0,

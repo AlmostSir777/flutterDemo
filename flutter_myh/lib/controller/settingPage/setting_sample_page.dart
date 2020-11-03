@@ -72,6 +72,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                     );
                   } else if (row == 4) {
                     showModalBottomSheet(
+                        isDismissible: false,
                         context: context,
                         builder: (_) {
                           return PickerTimeView(
