@@ -59,10 +59,19 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('easyrefresh运用'),
-        ),
-        body: ChangeNotifierProvider(
+      appBar: AppBar(
+        title: Text('easyrefresh运用'),
+      ),
+      body: ChangeNotifierProvider(
+        create: (_) => _listModel,
+        builder: (_, __) {
+          return Selector<RefreshListModel, List<int>>(
+              builder: (_, list, __) => _buildSampleDemo(context, list),
+              selector: (_, listModel) => listModel.list);
+        },
+      ),
+      /*
+        ChangeNotifierProvider(
           create: (context) => _listModel,
           builder: (_, __) {
             return Consumer<RefreshListModel>(builder: (_, listModel, __) {
@@ -70,9 +79,9 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
             });
           },
         )
-        // child: buildCustomRefresh(context),
-
-        );
+        */
+      // child: buildCustomRefresh(context),
+    );
   }
 
 // 基础
@@ -80,15 +89,14 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
     return EasyRefresh(
       footer: ClassicalFooter(
         safeArea: true,
-        overScroll: true,
       ),
       controller: _controller,
       enableControlFinishLoad: true,
       enableControlFinishRefresh: true,
       child: ListView.builder(
+        shrinkWrap: true,
         padding: EdgeInsets.only(
           top: 10,
-          bottom: 49,
         ),
         itemBuilder: (_, int row) {
           return Container(
@@ -104,7 +112,7 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
       ),
       onLoad: () async {
         await _listModel.getData(true);
-        _controller.finishLoad(noMore: list.length >= 40);
+        _controller.finishLoad(noMore: _listModel.list.length >= 40);
       },
       onRefresh: () async {
         await _listModel.getData(false);
@@ -161,23 +169,23 @@ class RefreshListModel extends ChangeNotifier {
     }
   }
   void addListValue(List<int> value) {
-    _list.addAll(value);
-    notifyListeners();
+    List<int> list = [];
+    list.addAll(_list);
+    list.addAll(value);
+    this.list = list;
   }
 
   Future<void> getData(bool isLoadMore) async {
-    await Future.delayed(Duration(seconds: 3), () {
-      if (isLoadMore) {
-        int currentLength = _list.length;
-        List<int> addList = [];
-        for (int i = 1; i <= 10; i++) {
-          addList.add(i + currentLength);
-        }
-        addListValue(addList);
-      } else {
-        // _list.clear();
-        this.list = [1, 2, 3, 4];
+    await Future.delayed(Duration(seconds: 3));
+    if (isLoadMore) {
+      int currentLength = _list.length;
+      List<int> addList = [];
+      for (int i = 1; i <= 10; i++) {
+        addList.add(i + currentLength);
       }
-    });
+      addListValue(addList);
+    } else {
+      this.list = [1, 2, 3, 4];
+    }
   }
 }
