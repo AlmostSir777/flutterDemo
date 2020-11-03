@@ -4,6 +4,7 @@ import '../demo/simple_widget_demo.dart';
 import '../demo/page_view_demo_page.dart';
 import '../demo/gesture_demo_page.dart';
 import '../demo/refresh_demo_page.dart';
+import '../demo/picker_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'pageView 运用',
       '手势运用',
       '刷新组件',
+      '底部弹窗',
     ];
     super.initState();
   }
@@ -68,6 +70,18 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                         return RefreshDemoPage();
                       }),
                     );
+                  } else if (row == 4) {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (_) {
+                          return PickerTimeView(
+                            doneCallBack: (String value) {
+                              print(value);
+                              Navigator.of(context).pop();
+                            },
+                            cancelCallBack: () => Navigator.of(context).pop(),
+                          );
+                        });
                   }
                 },
                 child: Column(
