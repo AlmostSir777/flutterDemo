@@ -5,6 +5,7 @@ import '../demo/page_view_demo_page.dart';
 import '../demo/gesture_demo_page.dart';
 import '../demo/refresh_demo_page.dart';
 import '../demo/picker_demo_page.dart';
+import '../demo/canvas_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       '手势运用',
       '刷新组件',
       '底部弹窗',
+      '绘制',
     ];
     super.initState();
   }
@@ -83,6 +85,13 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                             cancelCallBack: () => Navigator.of(context).pop(),
                           );
                         });
+                  } else if (row == 5) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return CanvasDemoPage();
+                      }),
+                    );
                   }
                 },
                 child: Column(
