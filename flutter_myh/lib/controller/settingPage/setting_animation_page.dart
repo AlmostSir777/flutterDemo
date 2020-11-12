@@ -6,6 +6,7 @@ import '../demo/animation_demo_custom_page.dart';
 import '../demo/animation_builder_demo.page.dart';
 import '../demo/animation_diff_demo_page.dart';
 import '../demo/test_animation_page.dart';
+import '../demo/animation_bottom_page.dart';
 
 class SettingAnimationPage extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _SettingAnimationPageState extends State<SettingAnimationPage>
       'animationBuilder应用',
       '复杂动画',
       '动画练习',
+      '底部弹出动画练习',
     ];
     return ListView.builder(
         itemCount: list.length,
@@ -85,6 +87,10 @@ class _SettingAnimationPageState extends State<SettingAnimationPage>
               } else if (row == 4) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return TestAnimationPage();
+                }));
+              } else if (row == 5) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return AnimationBottomPage();
                 }));
               }
             },

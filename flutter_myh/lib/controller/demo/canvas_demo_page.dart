@@ -39,7 +39,7 @@ class CanvasDemoPainter extends CustomPainter {
     var paint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill //填充
-      ..color = Colors.red; //背景为纸黄色
+      ..color = Colors.green.withOpacity(0.4); //背景为纸黄色
     canvas.drawRect(Offset.zero & size, paint);
 
     var progressPaint = Paint()..isAntiAlias = true;
@@ -47,18 +47,13 @@ class CanvasDemoPainter extends CustomPainter {
     //網格風格
     paint
       ..style = PaintingStyle.stroke //线
-      ..color = Color(0xff25272c)
+      ..color = Colors.white
       ..strokeWidth = 1.1;
 
     progressPaint
       ..style = PaintingStyle.fill
-      ..color = Colors.yellow
+      ..color = Colors.green
       ..strokeWidth = 10;
-
-    for (int i = 0; i <= 1; ++i) {
-      double dy = eHeight * i;
-      canvas.drawLine(Offset(0, dy), Offset(size.width, dy), paint);
-    }
 
     for (int i = 0; i <= 24; ++i) {
       double dx = eWidth * i;
