@@ -34,7 +34,7 @@ class MYHHud extends Dialog {
   final HudState state;
   MYHHud({
     Key key,
-    @required this.text,
+    this.text,
     this.state = HudState.loadingState,
   });
   @override
