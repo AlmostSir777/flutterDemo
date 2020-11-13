@@ -6,6 +6,7 @@ import '../demo/gesture_demo_page.dart';
 import '../demo/refresh_demo_page.dart';
 import '../demo/picker_demo_page.dart';
 import '../demo/canvas_demo_page.dart';
+import '../basics/key_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -24,6 +25,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       '刷新组件',
       '底部弹窗',
       '绘制',
+      'key相关',
+      'global key 运用',
     ];
     super.initState();
   }
@@ -90,6 +93,20 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                       context,
                       MaterialPageRoute(builder: (context) {
                         return CanvasDemoPage();
+                      }),
+                    );
+                  } else if (row == 6) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return KeyDemoPage();
+                      }),
+                    );
+                  } else if (row == 7) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return GlobalDemoPage();
                       }),
                     );
                   }
