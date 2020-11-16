@@ -6,6 +6,7 @@ export '../demo/animation_diff_demo_page.dart';
 export '../demo/canvas_demo_page.dart';
 export '../demo/gesture_demo_page.dart';
 export '../demo/page_view_demo_page.dart';
-export '../demo/page_view_demo_page.dart';
 export '../demo/simple_widget_demo.dart';
 export '../demo/test_animation_page.dart';
+export '../demo/provider_more_demo.dart';
+export '../basics/key_demo_page.dart';

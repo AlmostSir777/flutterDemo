@@ -20,8 +20,8 @@ class _AnimationDiffDemoPageState extends State<AnimationDiffDemoPage>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose(); //销毁释放
+    super.dispose();
   }
 
   Future<void> _playAnimation() async {

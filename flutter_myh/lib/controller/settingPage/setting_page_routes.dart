@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/demo/picker_demo_page.dart';
 import 'package:flutter_myh/controller/demo/refresh_demo_page.dart';
 
 import 'setting_config.dart';
@@ -22,6 +21,10 @@ class SettingPageRoutes {
   static String gesture = settingRoute + other + 'gesture';
   static String refresh = settingRoute + other + 'refresh';
   static String simpleWidget = settingRoute + other + 'simple';
+  static String provider = settingRoute + other + 'provider';
+  static String key = settingRoute + other + 'key';
+  static String pageview = settingRoute + other + 'pageView';
+  static String gloabKey = settingRoute + other + 'gloabKey';
 
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -35,6 +38,10 @@ class SettingPageRoutes {
       gesture: (_) => GestureDemoPage(),
       refresh: (_) => RefreshDemoPage(),
       simpleWidget: (_) => SampleWidgetDemoPage(),
+      provider: (_) => ProviderMorePage(),
+      key: (_) => KeyDemoPage(),
+      pageview: (_) => PageViewDemoPage(),
+      gloabKey: (_) => GlobalDemoPage(),
     };
   }
 }

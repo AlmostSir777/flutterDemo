@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './model/provider_test_model.dart';
-import '../../base/hud.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ProviderMorePage extends StatefulWidget {
