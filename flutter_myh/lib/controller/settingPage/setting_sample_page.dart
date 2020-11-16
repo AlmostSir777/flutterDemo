@@ -7,6 +7,7 @@ import '../demo/refresh_demo_page.dart';
 import '../demo/picker_demo_page.dart';
 import '../demo/canvas_demo_page.dart';
 import '../basics/key_demo_page.dart';
+import '../demo/provider_more_demo.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       '绘制',
       'key相关',
       'global key 运用',
+      'provider多个viewModel运用',
     ];
     super.initState();
   }
@@ -107,6 +109,13 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
                       context,
                       MaterialPageRoute(builder: (context) {
                         return GlobalDemoPage();
+                      }),
+                    );
+                  } else if (row == 8) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ProviderMorePage();
                       }),
                     );
                   }

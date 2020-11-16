@@ -11,7 +11,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  TabbarSelectModel tabModel;
+  TabbarSelectModel _tabModel;
   List<BottomNavigationBarItem> _tabBarItems = [
     BottomNavigationBarItem(
       icon: Icon(Icons.access_alarm),
@@ -25,21 +25,21 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    tabModel = TabbarSelectModel();
+    _tabModel = TabbarSelectModel();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TabbarSelectModel>(
-      create: (_) => tabModel,
+      create: (_) => _tabModel,
       builder: (_, __) {
         return Selector<TabbarSelectModel, int>(
           builder: (_, index, __) {
             return Scaffold(
               bottomNavigationBar: BottomNavigationBar(
                 items: _tabBarItems,
-                onTap: (int index) => tabModel.changeTabbarIndex(index),
+                onTap: (int index) => _tabModel.changeTabbarIndex(index),
                 type: BottomNavigationBarType.fixed,
                 fixedColor: Colors.green,
                 currentIndex: index,
