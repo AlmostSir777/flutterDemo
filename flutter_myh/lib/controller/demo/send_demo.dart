@@ -7,6 +7,9 @@ class SendActivity extends StatefulWidget {
 class _SendActivityState extends State<SendActivity> {
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments;
+    print(args);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

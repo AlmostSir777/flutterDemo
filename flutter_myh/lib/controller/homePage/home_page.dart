@@ -5,9 +5,9 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../model/test_model.dart';
 import 'home_detail_vc.dart';
 import '../demo/padding_align_center_demo.dart';
-import '../demo/send_demo.dart';
 import '../../base/push_route_tool.dart';
 import '../demo/subject_page.dart';
+import 'home_page_routes.dart';
 
 class HomeActivity extends StatefulWidget {
   @override
@@ -303,21 +303,14 @@ class _StarViewState extends State<StarView>
   }
 
   void _gotoSendDemo() {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //   return sendActivity();
-    // }));
-    Navigator.of(context).push(
-      AnimationCustomRoute(
-        widget: SendActivity(),
-        type: animationType.slider,
-      ),
+    Navigator.pushNamed(
+      context,
+      HomePageRoutes.sendDemo,
+      arguments: {'data': '哈哈哈'},
     );
   }
 
   void _gotoContainerDemo() {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //   return settingController();
-    // }));
     Navigator.of(context).push(
       AnimationCustomRoute(
         widget: SubjectPage(),
@@ -327,9 +320,6 @@ class _StarViewState extends State<StarView>
   }
 
   void _gotoPaddingAlignCenter() {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //   return paddingAlignCenter();
-    // }));
     Navigator.of(context).push(
       AnimationCustomRoute(
         widget: PaddingAlignCenter(),
@@ -345,11 +335,6 @@ class _StarViewState extends State<StarView>
         type: animationType.fade,
       ),
     );
-    //     await Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //   return homeDetailVC(
-    //     model: model,
-    //   );
-    // }));
     if (result == null) return;
     ListModel currentModel = result;
     setState(() {

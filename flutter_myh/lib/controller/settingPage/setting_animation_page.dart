@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
-import '../demo/animation_demo_page.dart';
-import '../demo/animation_demo_custom_page.dart';
-import '../demo/animation_builder_demo.page.dart';
-import '../demo/animation_diff_demo_page.dart';
-import '../demo/test_animation_page.dart';
-import '../demo/animation_bottom_page.dart';
+import '../settingPage/setting_page_routes.dart';
 
 class SettingAnimationPage extends StatefulWidget {
   @override
@@ -69,29 +64,18 @@ class _SettingAnimationPageState extends State<SettingAnimationPage>
           return GestureDetector(
             onTap: () {
               if (row == 0) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AnimationDemoPage();
-                }));
+                Navigator.pushNamed(context, SettingPageRoutes.animationNormal);
               } else if (row == 1) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CustomAnimationView();
-                }));
+                Navigator.pushNamed(context, SettingPageRoutes.animationCustom);
               } else if (row == 2) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AnimationBuildDemoPage();
-                }));
+                Navigator.pushNamed(
+                    context, SettingPageRoutes.animationBuilder);
               } else if (row == 3) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AnimationDiffDemoPage();
-                }));
+                Navigator.pushNamed(context, SettingPageRoutes.animationDiff);
               } else if (row == 4) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return TestAnimationPage();
-                }));
+                Navigator.pushNamed(context, SettingPageRoutes.animationTest);
               } else if (row == 5) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AnimationBottomPage();
-                }));
+                Navigator.pushNamed(context, SettingPageRoutes.animationBottom);
               }
             },
             child: Container(

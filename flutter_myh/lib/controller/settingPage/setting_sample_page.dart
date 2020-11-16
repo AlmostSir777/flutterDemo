@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../demo/simple_widget_demo.dart';
-import '../demo/page_view_demo_page.dart';
-import '../demo/gesture_demo_page.dart';
-import '../demo/refresh_demo_page.dart';
+import 'setting_page_routes.dart';
 import '../demo/picker_demo_page.dart';
-import '../demo/canvas_demo_page.dart';
-import '../basics/key_demo_page.dart';
-import '../demo/provider_more_demo.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override
@@ -48,78 +42,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
             itemBuilder: (context, int row) {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  if (row == 0) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return SampleWidgetDemoPage();
-                      }),
-                    );
-                  } else if (row == 1) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return PageViewDemoPage();
-                      }),
-                    );
-                  } else if (row == 2) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return GestureDemoPage();
-                      }),
-                    );
-                  } else if (row == 3) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return RefreshDemoPage();
-                      }),
-                    );
-                  } else if (row == 4) {
-                    showModalBottomSheet(
-                        isDismissible: false,
-                        context: context,
-                        builder: (_) {
-                          return PickerTimeView(
-                            doneCallBack: (String value) {
-                              print(value);
-                              Navigator.of(context).pop();
-                            },
-                            cancelCallBack: () => Navigator.of(context).pop(),
-                          );
-                        });
-                  } else if (row == 5) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return CanvasDemoPage();
-                      }),
-                    );
-                  } else if (row == 6) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return KeyDemoPage();
-                      }),
-                    );
-                  } else if (row == 7) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return GlobalDemoPage();
-                      }),
-                    );
-                  } else if (row == 8) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return ProviderMorePage();
-                      }),
-                    );
-                  }
-                },
+                onTap: () => _gotoVc(row),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,6 +70,39 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
             }),
       ),
     );
+  }
+
+  void _gotoVc(int row) {
+    if (row == 0) {
+      Navigator.pushNamed(context, SettingPageRoutes.simpleWidget);
+    } else if (row == 1) {
+      Navigator.pushNamed(context, SettingPageRoutes.pageview);
+    } else if (row == 2) {
+      Navigator.pushNamed(context, SettingPageRoutes.gesture);
+    } else if (row == 3) {
+      Navigator.pushNamed(context, SettingPageRoutes.refresh);
+    } else if (row == 4) {
+      showModalBottomSheet(
+          isDismissible: false,
+          context: context,
+          builder: (_) {
+            return PickerTimeView(
+              doneCallBack: (String value) {
+                print(value);
+                Navigator.of(context).pop();
+              },
+              cancelCallBack: () => Navigator.of(context).pop(),
+            );
+          });
+    } else if (row == 5) {
+      Navigator.pushNamed(context, SettingPageRoutes.cavas);
+    } else if (row == 6) {
+      Navigator.pushNamed(context, SettingPageRoutes.key);
+    } else if (row == 7) {
+      Navigator.pushNamed(context, SettingPageRoutes.gloabKey);
+    } else if (row == 8) {
+      Navigator.pushNamed(context, SettingPageRoutes.provider);
+    }
   }
 
   @override
