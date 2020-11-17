@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-import '../../model/test_model.dart';
+import '../../model/root_page_model.dart';
 import 'home_detail_vc.dart';
 import '../demo/padding_align_center_demo.dart';
 import '../../base/push_route_tool.dart';
@@ -32,16 +32,12 @@ class _HomeActivityState extends State<HomeActivity>
       appBar: AppBar(
         title: Text('首页'),
       ),
-      body: _buildView(),
+      body: Container(
+        color: Colors.white,
+        child: StarView(),
+      ),
     );
   }
-}
-
-Widget _buildView() {
-  return Container(
-    color: Colors.white,
-    child: StarView(),
-  );
 }
 
 class StarView extends StatefulWidget {
@@ -49,11 +45,7 @@ class StarView extends StatefulWidget {
   _StarViewState createState() => _StarViewState();
 }
 
-class _StarViewState extends State<StarView>
-    with AutomaticKeepAliveClientMixin {
-  @override //第二步保持页面状态返回true
-  bool get wantKeepAlive => true;
-
+class _StarViewState extends State<StarView> {
   int starNum = 10;
   List listModels = List<ListModel>();
 
@@ -92,7 +84,6 @@ class _StarViewState extends State<StarView>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     var sca = Scaffold(
       body: _buildListView(),
     );

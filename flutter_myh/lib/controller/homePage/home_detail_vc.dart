@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/test_model.dart';
+import '../../model/root_page_model.dart';
 
 class HomeDetailVC extends StatefulWidget {
   final ListModel model;
