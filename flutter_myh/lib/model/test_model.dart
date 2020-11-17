@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../base/manager.dart';
 
 class IconModel extends Object {
   IconData icon;
@@ -28,6 +29,7 @@ class TabbarSelectModel with ChangeNotifier {
   }
   void changeTabbarIndex(int index) {
     _index = index;
+    AppManager.instance.addNum();
     notifyListeners();
   }
 }

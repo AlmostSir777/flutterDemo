@@ -70,17 +70,6 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
               selector: (_, listModel) => listModel.list);
         },
       ),
-      /*
-        ChangeNotifierProvider(
-          create: (context) => _listModel,
-          builder: (_, __) {
-            return Consumer<RefreshListModel>(builder: (_, listModel, __) {
-              return _buildSampleDemo(context, listModel.list);
-            });
-          },
-        )
-        */
-      // child: buildCustomRefresh(context),
     );
   }
 
