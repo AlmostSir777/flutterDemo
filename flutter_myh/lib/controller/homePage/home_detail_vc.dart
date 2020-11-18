@@ -5,7 +5,7 @@ import '../../model/root_page_model.dart';
 class HomeDetailVC extends StatefulWidget {
   final ListModel model;
   const HomeDetailVC({
-    @required this.model,
+    this.model,
   });
   @override
   _HomeDetailVCState createState() => _HomeDetailVCState();
@@ -14,11 +14,13 @@ class HomeDetailVC extends StatefulWidget {
 class _HomeDetailVCState extends State<HomeDetailVC>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-
+  ListModel _model;
   @override
   void initState() {
     super.initState();
-    print(widget.model.name);
+    if (widget.model != null) {
+      _model = widget.model;
+    }
     _controller = AnimationController(vsync: this);
   }
 
@@ -30,6 +32,10 @@ class _HomeDetailVCState extends State<HomeDetailVC>
 
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments;
+    if (args != null && _model == null) {
+      _model = args;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('详情'),
@@ -41,8 +47,8 @@ class _HomeDetailVCState extends State<HomeDetailVC>
           color: Colors.blue,
           onPressed: () {
             /*返回数据*/
-            widget.model.name = '王二麻子';
-            Navigator.of(context).pop(widget.model);
+            _model.name = '王二麻子';
+            Navigator.of(context).pop(_model);
           },
           child: Text(
             "返回传值",

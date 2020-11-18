@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../model/root_page_model.dart';
-import 'home_detail_vc.dart';
 import '../demo/padding_align_center_demo.dart';
 import '../../base/push_route_tool.dart';
 import '../demo/subject_page.dart';
@@ -84,10 +83,7 @@ class _StarViewState extends State<StarView> {
 
   @override
   Widget build(BuildContext context) {
-    var sca = Scaffold(
-      body: _buildListView(),
-    );
-    return sca;
+    return _buildListView();
   }
 
   Column _buildTopView() {
@@ -320,12 +316,17 @@ class _StarViewState extends State<StarView> {
   }
 
   void _gotoDetail(ListModel model) async {
-    final result = await Navigator.of(context).push(
-      AnimationCustomRoute(
-        widget: HomeDetailVC(model: model),
-        type: animationType.fade,
-      ),
+    // final result = await Navigator.of(context).push(
+    //   AnimationCustomRoute(
+    //     widget: HomeDetailVC(model: model),
+    //     type: animationType.fade,
+    //   ),
+    // );
+    final result = await Navigator.of(context).pushNamed(
+      HomePageRoutes.detail,
+      arguments: model,
     );
+
     if (result == null) return;
     ListModel currentModel = result;
     setState(() {

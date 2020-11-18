@@ -16,7 +16,7 @@ class HomePageRoutes {
 
   static getHomePageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
-      detail: (_) => HomeDetailVC(model: null),
+      detail: (_) => HomeDetailVC(),
       paddingAlignCenter: (_) => PaddingAlignCenter(),
       sendDemo: (_) => SendActivity(),
       subjectPage: (_) => SubjectPage(),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../base/hud.dart';
+
 class SendActivity extends StatefulWidget {
   _SendActivityState createState() => _SendActivityState();
 }
@@ -7,9 +9,14 @@ class SendActivity extends StatefulWidget {
 class _SendActivityState extends State<SendActivity> {
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments;
+    Map args = ModalRoute.of(context).settings.arguments;
     print(args);
-
+    Future.delayed(Duration(milliseconds: 500), () {
+      Toast.toast(
+        args['data'],
+        context: context,
+      );
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(
