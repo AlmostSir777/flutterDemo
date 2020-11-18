@@ -63,8 +63,6 @@ class _StarViewState extends State<StarView> {
     ];
     for (int i = 0; i < titleArr.length; i++) {
       ListModel model = ListModel(i, titleArr[i], avatarArr[i]);
-      print(model);
-      print(i);
       listModels.add(model);
     }
   }

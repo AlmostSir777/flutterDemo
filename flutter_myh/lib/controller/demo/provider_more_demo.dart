@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './model/provider_test_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProviderMorePage extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
 
   void _loadData() async {
     await _bannerViewModel.loadData();
+    Fluttertoast.showToast(msg: '数据加载完毕');
   }
 
   @override
