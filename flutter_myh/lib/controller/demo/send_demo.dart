@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../base/hud.dart';
-
 class SendActivity extends StatefulWidget {
   _SendActivityState createState() => _SendActivityState();
 }
 
 class _SendActivityState extends State<SendActivity> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map args = ModalRoute.of(context).settings.arguments;
     print(args);
-    Future.delayed(Duration(milliseconds: 500), () {
-      Toast.toast(
-        args['data'],
-        context: context,
-      );
-    });
     return Scaffold(
       appBar: AppBar(
         title: Text(

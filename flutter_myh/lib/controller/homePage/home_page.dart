@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../model/root_page_model.dart';
 import '../demo/padding_align_center_demo.dart';
@@ -231,6 +232,10 @@ class _StarViewState extends State<StarView> {
 
   Widget _buildImage(String url, int flex) {
     return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
       child: Stack(
         children: <Widget>[
           Container(
@@ -314,17 +319,10 @@ class _StarViewState extends State<StarView> {
   }
 
   void _gotoDetail(ListModel model) async {
-    // final result = await Navigator.of(context).push(
-    //   AnimationCustomRoute(
-    //     widget: HomeDetailVC(model: model),
-    //     type: animationType.fade,
-    //   ),
-    // );
     final result = await Navigator.of(context).pushNamed(
       HomePageRoutes.detail,
       arguments: model,
     );
-
     if (result == null) return;
     ListModel currentModel = result;
     setState(() {
@@ -334,23 +332,9 @@ class _StarViewState extends State<StarView> {
         }
       }
     });
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('返回的结果'),
-          content: Text('${currentModel.index + 1}--${currentModel.name}'),
-          actions: <Widget>[
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('确定'))
-          ],
-        );
-      },
+    Fluttertoast.showToast(
+      msg: '${currentModel.index + 1}--${currentModel.name}',
+      gravity: ToastGravity.CENTER,
     );
   }
 
