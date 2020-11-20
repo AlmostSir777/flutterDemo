@@ -20,6 +20,11 @@ class _HomeActivityState extends State<HomeActivity>
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     print('啥时候执行');
     super.dispose();

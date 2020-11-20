@@ -32,6 +32,7 @@ dependencies:
   flutter_easyrefresh: ^2.1.0
   flutter_boost: ^1.17.1
   fluttertoast: ^7.1.1
+  dio: ^3.0.0
 
 dev_dependencies:
   flutter_test:
