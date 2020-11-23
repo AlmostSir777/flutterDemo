@@ -31,7 +31,7 @@ class RequestManager {
   RequestManager._interal() {
     _options = BaseOptions(
       connectTimeout: 60000,
-      receiveTimeout: 60000,
+      receiveTimeout: 500,
       baseUrl: baseURL,
       headers: {},
     );
@@ -76,10 +76,6 @@ class RequestManager {
       error: error,
     );
   }
-
-// 这边使用泛型来代替参数：
-// T 表示返回的是否是集合，有HttpResponseEntity和HttpResponseListEntity两种
-// G 表示返回的是接口返回的类型（即你需要的类型）
 
   _request<T>(
     HttpMethod method,
