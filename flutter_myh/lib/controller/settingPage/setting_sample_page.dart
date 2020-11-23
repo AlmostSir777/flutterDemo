@@ -23,6 +23,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'key相关',
       'global key 运用',
       'provider多个viewModel运用',
+      '图片选择器',
     ];
     super.initState();
   }
@@ -102,6 +103,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.gloabKey);
     } else if (row == 8) {
       Navigator.pushNamed(context, SettingPageRoutes.provider);
+    } else if (row == 9) {
+      Navigator.pushNamed(context, SettingPageRoutes.imagePicker);
     }
   }
 
