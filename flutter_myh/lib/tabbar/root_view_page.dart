@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../controller/homePage/home_page.dart';
 import '../controller/settingPage/setting_page.dart';
 import '../model/root_page_model.dart';
+import '../base/common_util.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -31,6 +32,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 屏幕适配
+    CommonUtil.initScreen(context);
     return ChangeNotifierProvider<TabbarSelectModel>(
       create: (_) => _tabModel,
       builder: (_, __) {
