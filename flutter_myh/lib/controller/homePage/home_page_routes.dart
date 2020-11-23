@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'home_detail_vc.dart';
-import '../demo/padding_align_center_demo.dart';
-import '../demo/send_demo.dart';
-import '../demo/subject_page.dart';
-import '../demo/container_demo.dart';
+import '../demo/home/home_detail_vc.dart';
+import '../demo/home/padding_align_center_demo.dart';
+import '../demo/home/send_demo.dart';
+import '../demo/home/subject_page.dart';
+import '../demo/setting/container_demo.dart';
 
 class HomePageRoutes {
   static String routeName = 'home';

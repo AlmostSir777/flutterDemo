@@ -33,6 +33,9 @@ dependencies:
   flutter_boost: ^1.17.1
   fluttertoast: ^7.1.1
   dio: ^3.0.0
+  # flutter_custom_camera_pugin: ^0.0.5
+  image_picker_flutter: ^1.4.4
+  flutter_screenutil: ^2.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/demo/refresh_demo_page.dart';
+import 'package:flutter_myh/controller/demo/setting/refresh_demo_page.dart';
 
 import 'setting_config.dart';
 
@@ -25,6 +25,7 @@ class SettingPageRoutes {
   static String key = settingRoute + other + 'key';
   static String pageview = settingRoute + other + 'pageView';
   static String gloabKey = settingRoute + other + 'gloabKey';
+  static String imagePicker = settingRoute + other + 'imagePicker';
 
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -42,6 +43,7 @@ class SettingPageRoutes {
       key: (_) => KeyDemoPage(),
       pageview: (_) => PageViewDemoPage(),
       gloabKey: (_) => GlobalDemoPage(),
+      imagePicker: (_) => ImagePickerDemoPage(),
     };
   }
 }

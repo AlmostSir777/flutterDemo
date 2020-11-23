@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'request_data/request_response_model.dart';
 
 typedef RequestCallBack<T> = dynamic Function(T response);
@@ -6,6 +7,7 @@ typedef RequestCallBack<T> = dynamic Function(T response);
 enum HttpMethod {
   get,
   post,
+  upload,
 }
 
 /*
@@ -31,7 +33,7 @@ class RequestManager {
   RequestManager._interal() {
     _options = BaseOptions(
       connectTimeout: 60000,
-      receiveTimeout: 500,
+      receiveTimeout: 1000,
       baseUrl: baseURL,
       headers: {},
     );
@@ -50,13 +52,14 @@ class RequestManager {
 
   get<T>(
     String url, {
+    Map requestBody,
     RequestCallBack<T> success,
     RequestCallBack error,
   }) async {
     _request<T>(
       HttpMethod.get,
       url,
-      null,
+      requestBody,
       success: success,
       error: error,
     );
@@ -77,12 +80,31 @@ class RequestManager {
     );
   }
 
+  upload<T>(
+    String url,
+    Map requestBody, {
+    @required FormData data,
+    RequestCallBack success,
+    RequestCallBack error,
+    RequestCallBack progress,
+  }) async {
+    _request<T>(
+      HttpMethod.upload,
+      url,
+      requestBody,
+      success: success,
+      error: error,
+      progress: progress,
+    );
+  }
+
   _request<T>(
     HttpMethod method,
     String url,
     Map requestBody, {
     RequestCallBack success,
     RequestCallBack error,
+    RequestCallBack progress,
   }) async {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options) {},
@@ -91,7 +113,12 @@ class RequestManager {
     ));
 
     try {
-      Response response = await _getResponse(method, url, requestBody);
+      Response response = await _getResponse(
+        method,
+        url,
+        requestBody,
+        progress: progress,
+      );
       if (response.statusCode == successCode) {
         if (success != null) {
           success(BaseRequestData<T>.fromJson(response.data));
@@ -108,16 +135,32 @@ class RequestManager {
     }
   }
 
-  _getResponse(HttpMethod method, String url, Map requestBody) async {
+  _getResponse(
+    HttpMethod method,
+    String url,
+    Map requestBody, {
+    FormData data,
+    RequestCallBack progress,
+  }) async {
     Response response;
     switch (method) {
       case HttpMethod.get:
-        response = await _dio.get(url);
+        response = await _dio.get(
+          url,
+          queryParameters: requestBody ?? {},
+        );
         break;
       case HttpMethod.post:
+      case HttpMethod.upload:
         response = await _dio.post(
           url,
-          queryParameters: requestBody,
+          queryParameters: requestBody ?? {},
+          data: data,
+          onSendProgress: (count, total) {
+            if (progress != null) {
+              progress(count.toDouble() / total);
+            }
+          },
         );
         break;
       default:

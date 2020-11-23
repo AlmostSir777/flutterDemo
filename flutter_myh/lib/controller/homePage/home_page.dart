@@ -4,9 +4,9 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../model/root_page_model.dart';
-import '../demo/padding_align_center_demo.dart';
+import '../demo/home/padding_align_center_demo.dart';
 import '../../base/push_route_tool.dart';
-import '../demo/subject_page.dart';
+import '../demo/home/subject_page.dart';
 import 'home_page_routes.dart';
 
 class HomeActivity extends StatefulWidget {
