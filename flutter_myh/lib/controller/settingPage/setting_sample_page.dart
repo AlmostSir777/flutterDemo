@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'setting_page_routes.dart';
-import '../demo/picker_demo_page.dart';
+import '../demo/setting/picker_demo_page.dart';
 
 class SettingSampleDemoPage extends StatefulWidget {
   @override

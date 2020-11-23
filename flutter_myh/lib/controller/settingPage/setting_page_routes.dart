@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/demo/refresh_demo_page.dart';
+import 'package:flutter_myh/controller/demo/setting/refresh_demo_page.dart';
 
 import 'setting_config.dart';
 

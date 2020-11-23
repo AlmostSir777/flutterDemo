@@ -63,7 +63,7 @@ class SubjectTop extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
             child: Text(
-              '学科筛选：${context.watch<SubjectListModel>().list.length}个学科，${context.watch<SubjectListModel>().selectList.length}个被选学科',
+              'watch写法--学科筛选：${context.watch<SubjectListModel>().list.length}个学科，${context.watch<SubjectListModel>().selectList.length}个被选学科',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
@@ -74,7 +74,7 @@ class SubjectTop extends StatelessWidget {
             return Container(
               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
               child: Text(
-                '学科筛选：${viewModel.list.length}个学科，${viewModel.selectList.length}个被选学科',
+                'Consumer写法--学科筛选：${viewModel.list.length}个学科，${viewModel.selectList.length}个被选学科',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey,
