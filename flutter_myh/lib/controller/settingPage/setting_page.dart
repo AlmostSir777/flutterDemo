@@ -26,7 +26,11 @@ class _SettingControllerState extends State<SettingController>
       length: tabList.length,
       vsync: this,
       initialIndex: 0,
-    );
+    )..addListener(() {
+        if (tabController.index != 1) {
+          textPageKey?.currentState?.dissmissKeyboard();
+        }
+      });
     super.initState();
   }
 
@@ -69,7 +73,7 @@ class _SettingControllerState extends State<SettingController>
         controller: tabController,
         children: <Widget>[
           SettingTimerPage(),
-          SettingTextFieldPage(),
+          SettingTextFieldPage(textPageKey),
           SettingAnimationPage(),
           SettingSampleDemoPage(),
         ],

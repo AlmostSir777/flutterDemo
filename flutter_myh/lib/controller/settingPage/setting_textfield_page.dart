@@ -3,19 +3,28 @@ import 'package:flutter/services.dart';
 
 import '../../base/message_dialog.dart';
 
+GlobalKey<_SettingTextFieldPageState> textPageKey = GlobalKey();
+
 class SettingTextFieldPage extends StatefulWidget {
+  SettingTextFieldPage(Key key) : super(key: key);
+
   @override
   _SettingTextFieldPageState createState() => _SettingTextFieldPageState();
 }
 
 class _SettingTextFieldPageState extends State<SettingTextFieldPage>
     with AutomaticKeepAliveClientMixin {
+  GlobalKey<_TextFieldDemoViewState> fieldKey = GlobalKey();
+  void dissmissKeyboard() {
+    fieldKey.currentState.disFoucus();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      body: TextFieldDemoView(),
+      body: TextFieldDemoView(fieldKey),
     );
   }
 
@@ -25,7 +34,7 @@ class _SettingTextFieldPageState extends State<SettingTextFieldPage>
 
 class TextFieldDemoView extends StatefulWidget {
   final String content;
-  TextFieldDemoView({this.content});
+  TextFieldDemoView(Key key, {this.content}) : super(key: key);
   @override
   _TextFieldDemoViewState createState() => _TextFieldDemoViewState();
 }
@@ -36,6 +45,11 @@ class _TextFieldDemoViewState extends State<TextFieldDemoView>
   FocusNode _focusNode;
   RegExp _regExp;
   int _limitLength;
+
+  void disFoucus() {
+    _focusNode.unfocus();
+  }
+
   @override
   void initState() {
     _limitLength = 20;
