@@ -11,3 +11,4 @@ export '../demo/setting/test_animation_page.dart';
 export '../demo/setting/provider_more_demo.dart';
 export '../basics/key_demo_page.dart';
 export '../demo/setting/image_picker.dart';
+export '../demo/setting/video_player.dart';

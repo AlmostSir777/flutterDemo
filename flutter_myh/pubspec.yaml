@@ -36,6 +36,7 @@ dependencies:
   # flutter_custom_camera_pugin: ^0.0.5
   image_picker_flutter: ^1.4.4
   flutter_screenutil: ^2.3.0
+  video_player: ^1.0.1
 
 dev_dependencies:
   flutter_test:

@@ -26,6 +26,7 @@ class SettingPageRoutes {
   static String pageview = settingRoute + other + 'pageView';
   static String gloabKey = settingRoute + other + 'gloabKey';
   static String imagePicker = settingRoute + other + 'imagePicker';
+  static String videoPlayer = settingRoute + other + 'videoPlayer';
 
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -44,6 +45,7 @@ class SettingPageRoutes {
       pageview: (_) => PageViewDemoPage(),
       gloabKey: (_) => GlobalDemoPage(),
       imagePicker: (_) => ImagePickerDemoPage(),
+      videoPlayer: (_) => VideoPlayerPage(),
     };
   }
 }

@@ -24,6 +24,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'global key 运用',
       'provider多个viewModel运用',
       '图片选择器',
+      '视频播放器',
     ];
     super.initState();
   }
@@ -105,6 +106,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.provider);
     } else if (row == 9) {
       Navigator.pushNamed(context, SettingPageRoutes.imagePicker);
+    } else if (row == 10) {
+      Navigator.pushNamed(context, SettingPageRoutes.videoPlayer);
     }
   }
 
