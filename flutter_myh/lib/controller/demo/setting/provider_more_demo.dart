@@ -22,7 +22,10 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
 
   void _loadData() async {
     await _bannerViewModel.loadData();
-    Fluttertoast.showToast(msg: '数据加载完毕');
+    Fluttertoast.showToast(
+      msg: '数据加载完毕',
+      gravity: ToastGravity.CENTER,
+    );
   }
 
   @override
@@ -46,6 +49,31 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Selector<TimeCountModel, int>(
+                builder: (_, count, __) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(right: 20),
+                        height: 40,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () => _timeCountModel.timeAdd(),
+                            child: Text('点击计数'),
+                          ),
+                        ),
+                      ),
+                      Text('当前计数${count.toString()}',
+                          style: TextStyle(
+                            backgroundColor: Colors.red,
+                          )),
+                    ],
+                  );
+                },
+                selector: (_, viewModel) => viewModel.timeCount,
+              ),
               Consumer<BannerViewModel>(builder: (_, viewModel, __) {
                 return ListView.builder(
                     shrinkWrap: true,
@@ -86,32 +114,6 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
                       );
                     });
               }),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                height: 40,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () => _timeCountModel.timeAdd(),
-                    child: Text('点击计数'),
-                  ),
-                ),
-              ),
-              Selector<TimeCountModel, int>(
-                builder: (_, count, __) {
-                  return Container(
-                    alignment: Alignment.center,
-                    height: 40,
-                    color: Colors.blue,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text('当前计数${count.toString()}'),
-                      ],
-                    ),
-                  );
-                },
-                selector: (_, viewModel) => viewModel.timeCount,
-              ),
             ],
           ),
         ),

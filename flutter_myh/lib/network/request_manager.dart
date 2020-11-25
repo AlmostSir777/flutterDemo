@@ -50,13 +50,13 @@ class RequestManager {
     return _instance;
   }
 
-  get<T>(
+  Future<T> get<T>(
     String url, {
     Map requestBody,
     RequestCallBack<T> success,
     RequestCallBack error,
   }) async {
-    _request<T>(
+    return _request<T>(
       HttpMethod.get,
       url,
       requestBody,
@@ -65,13 +65,13 @@ class RequestManager {
     );
   }
 
-  post<T>(
+  Future<T> post<T>(
     String url,
     Map requestBody, {
     RequestCallBack success,
     RequestCallBack error,
   }) async {
-    _request<T>(
+    return _request<T>(
       HttpMethod.post,
       url,
       requestBody,
@@ -80,7 +80,7 @@ class RequestManager {
     );
   }
 
-  upload<T>(
+  Future<T> upload<T>(
     String url,
     Map requestBody, {
     @required FormData data,
@@ -88,7 +88,7 @@ class RequestManager {
     RequestCallBack error,
     RequestCallBack progress,
   }) async {
-    _request<T>(
+    return _request<T>(
       HttpMethod.upload,
       url,
       requestBody,
@@ -98,7 +98,7 @@ class RequestManager {
     );
   }
 
-  _request<T>(
+  Future<T> _request<T>(
     HttpMethod method,
     String url,
     Map requestBody, {
@@ -111,7 +111,7 @@ class RequestManager {
       onResponse: (Response response) {},
       onError: (DioError error) {},
     ));
-
+    BaseRequestData data;
     try {
       Response response = await _getResponse(
         method,
@@ -119,9 +119,11 @@ class RequestManager {
         requestBody,
         progress: progress,
       );
+
       if (response.statusCode == successCode) {
         if (success != null) {
-          success(BaseRequestData<T>.fromJson(response.data));
+          data = BaseRequestData<T>.fromJson(response.data);
+          success(data);
         }
       } else {
         if (error != null) {
@@ -133,6 +135,7 @@ class RequestManager {
         error(e.toString());
       }
     }
+    return data?.result;
   }
 
   _getResponse(

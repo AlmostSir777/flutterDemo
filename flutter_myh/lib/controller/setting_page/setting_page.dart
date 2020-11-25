@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/settingPage/setting_sample_page.dart';
+import 'package:flutter_myh/controller/setting_page/setting_sample_page.dart';
 
 import 'setting_timer_page.dart';
 import 'setting_textfield_page.dart';
 import 'setting_animation_page.dart';
-import '../../const/config.dart';
 
 class SettingController extends StatefulWidget {
   @override
@@ -52,7 +51,6 @@ class _SettingControllerState extends State<SettingController>
     return Scaffold(
       appBar: AppBar(
         title: Text('设置'),
-        backgroundColor: theme_color,
         bottom: TabBar(
           indicatorColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.label,

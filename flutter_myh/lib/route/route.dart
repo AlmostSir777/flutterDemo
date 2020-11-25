@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../controller/homePage/home_page_routes.dart';
-import '../controller/settingPage/setting_page_routes.dart';
+import '../controller/home_page/home_page_routes.dart';
+import '../controller/setting_page/setting_page_routes.dart';
 
 class AppRoute {
   static Map<String, Widget Function(BuildContext)> getPageRoutes(

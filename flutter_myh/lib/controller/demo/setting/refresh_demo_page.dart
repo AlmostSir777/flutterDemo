@@ -65,40 +65,43 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
       body: ChangeNotifierProvider(
         create: (_) => _listModel,
         builder: (_, __) {
-          return Selector<RefreshListModel, List<int>>(
-              builder: (_, list, __) => _buildSampleDemo(context, list),
-              selector: (_, listModel) => listModel.list);
+          return SafeArea(
+            child: Selector<RefreshListModel, List<int>>(
+                builder: (_, list, __) => buildSampleDemo(context, list),
+                selector: (_, listModel) => listModel.list),
+          );
         },
       ),
     );
   }
 
 // 基础
-  Widget _buildSampleDemo(BuildContext context, List<int> list) {
-    return EasyRefresh(
+  Widget buildSampleDemo(BuildContext context, List<int> list) {
+    return EasyRefresh.custom(
       footer: ClassicalFooter(
         safeArea: true,
       ),
       controller: _controller,
       enableControlFinishLoad: true,
-      enableControlFinishRefresh: true,
-      child: ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(
-          top: 10,
+      enableControlFinishRefresh: false,
+      slivers: <Widget>[
+        SliverFixedExtentList(
+          itemExtent: 40,
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Container(
+                height: 49,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Text('第${list[index]}行'),
+              );
+            },
+            childCount: list.length,
+          ),
         ),
-        itemBuilder: (_, int row) {
-          return Container(
-            height: 49,
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(
-              left: 10,
-            ),
-            child: Text('第${list[row]}行'),
-          );
-        },
-        itemCount: list.length,
-      ),
+      ],
       onLoad: () async {
         await _listModel.getData(true);
         _controller.finishLoad(noMore: _listModel.list.length >= 40);
@@ -117,10 +120,7 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
       enableControlFinishRefresh: true,
       controller: _controller,
       header: ClassicalHeader(),
-      footer: ClassicalFooter(
-          // safeArea: true,
-          // overScroll: true,
-          ),
+      footer: ClassicalFooter(),
       onRefresh: () => _getData(false),
       onLoad: () => _getData(true),
       slivers: <Widget>[

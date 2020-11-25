@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
-import '../settingPage/setting_page_routes.dart';
+import '../setting_page/setting_page_routes.dart';
 
 class SettingAnimationPage extends StatefulWidget {
   @override

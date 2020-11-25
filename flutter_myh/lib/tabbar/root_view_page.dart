@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/homePage/home_page.dart';
-import '../controller/settingPage/setting_page.dart';
+import '../controller/home_page/home_page.dart';
+import '../controller/setting_page/setting_page.dart';
+import '../controller/theme_page/theme_page.dart';
 import '../model/root_page_model.dart';
 import '../base/common_util.dart';
-import '../const/config.dart';
+import '../base/app_manager.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -20,9 +21,13 @@ class _RootPageState extends State<RootPage> {
       title: Text('首页'),
     ),
     BottomNavigationBarItem(
+      icon: Icon(Icons.explore),
+      title: Text('例子'),
+    ),
+    BottomNavigationBarItem(
       icon: Icon(Icons.settings),
       title: Text('设置'),
-    )
+    ),
   ];
 
   @override
@@ -45,13 +50,14 @@ class _RootPageState extends State<RootPage> {
                 items: _tabBarItems,
                 onTap: (int index) => _tabModel.changeTabbarIndex(index),
                 type: BottomNavigationBarType.fixed,
-                fixedColor: theme_color,
+                fixedColor: AppManager.instance.themeData.primaryColor,
                 currentIndex: index,
               ),
               body: IndexedStack(
                 children: <Widget>[
                   HomeActivity(),
                   SettingController(),
+                  ThemePage(),
                 ],
                 index: index,
               ),
