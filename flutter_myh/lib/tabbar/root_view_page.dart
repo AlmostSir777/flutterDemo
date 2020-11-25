@@ -5,6 +5,7 @@ import '../controller/homePage/home_page.dart';
 import '../controller/settingPage/setting_page.dart';
 import '../model/root_page_model.dart';
 import '../base/common_util.dart';
+import '../const/config.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -15,11 +16,11 @@ class _RootPageState extends State<RootPage> {
   TabbarSelectModel _tabModel;
   List<BottomNavigationBarItem> _tabBarItems = [
     BottomNavigationBarItem(
-      icon: Icon(Icons.access_alarm),
+      icon: Icon(Icons.home),
       title: Text('首页'),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.access_time),
+      icon: Icon(Icons.settings),
       title: Text('设置'),
     )
   ];
@@ -44,7 +45,7 @@ class _RootPageState extends State<RootPage> {
                 items: _tabBarItems,
                 onTap: (int index) => _tabModel.changeTabbarIndex(index),
                 type: BottomNavigationBarType.fixed,
-                fixedColor: Colors.green,
+                fixedColor: theme_color,
                 currentIndex: index,
               ),
               body: IndexedStack(

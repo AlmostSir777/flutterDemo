@@ -3,6 +3,7 @@ import 'tabbar/root_view_page.dart';
 
 import './base/config.dart';
 import 'route/route.dart';
+import './const/config.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Color(0xff4782f6),
+        primaryColor: theme_color,
       ),
       home: RootPage(),
       routes: AppRoute.getPageRoutes(context),
