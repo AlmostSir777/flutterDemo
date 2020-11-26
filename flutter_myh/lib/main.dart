@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'tabbar/root_view_page.dart';
 import './base/config.dart';
@@ -22,6 +23,15 @@ class MyApp extends StatelessWidget {
           theme: context.watch<AppManager>().themeData,
           home: RootPage(),
           routes: AppRoute.getPageRoutes(context),
+          locale: Locale('zh', 'CH'),
+          localizationsDelegates: [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('zh', 'CH'),
+          ],
         );
       },
     );

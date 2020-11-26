@@ -10,6 +10,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
   final Widget tailing;
   final bool showNav;
   final Color backgroundColor;
+  final Color navColor;
   final Widget body;
   final T model;
   final VoidCallback callback;
@@ -22,6 +23,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
     this.tailing,
     this.showNav = true,
     this.backgroundColor = Colors.white,
+    this.navColor,
     @required this.body,
     @required this.model,
     this.callback,
@@ -33,6 +35,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
         leading: leading,
         tailing: tailing,
         callBack: callback,
+        navColor: navColor,
         title: titleView != null
             ? titleView
             : Text(

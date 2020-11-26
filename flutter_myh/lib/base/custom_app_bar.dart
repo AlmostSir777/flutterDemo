@@ -7,11 +7,13 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget title;
   final Widget leading;
   final Widget tailing;
+  final Color navColor;
   final VoidCallback callBack;
   CustomAppBar({
     this.title,
     this.leading,
     this.tailing,
+    this.navColor,
     this.callBack,
   });
   @override
@@ -25,7 +27,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     double _height = Platform.isIOS ? 44.0 : 50.0;
     return Container(
-      color: AppManager.instance.themeData.primaryColor,
+      color: widget.navColor ?? AppManager.instance.themeData.primaryColor,
       padding: EdgeInsets.only(top: CommonUtil.statusBarHeight),
       child: Container(
         width: CommonUtil.screenWidth,
