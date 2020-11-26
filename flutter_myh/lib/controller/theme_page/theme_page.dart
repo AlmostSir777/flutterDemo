@@ -44,6 +44,7 @@ class _ThemePageState extends State<ThemePage> {
           itemCount: _list.length,
           itemBuilder: (_, int row) {
             ThemeModel model = _list[row];
+            bool isSelect = AppManager().themeData.primaryColor == model.color;
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
@@ -59,8 +60,14 @@ class _ThemePageState extends State<ThemePage> {
                   children: <Widget>[
                     Container(
                       height: 49,
-                      alignment: Alignment.centerLeft,
-                      child: Text(model.title),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(model.title),
+                          isSelect ? Icon(Icons.select_all) : Container(),
+                        ],
+                      ),
                     ),
                     Container(
                       height: 1,
