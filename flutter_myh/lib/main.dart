@@ -16,15 +16,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AppManager>(create: (_) => AppManager.instance),
       ],
-      child: Consumer<AppManager>(builder: (_, manager, __) {
+      builder: (context, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
-          title: 'Flutter Demo',
-          theme: manager.themeData,
+          theme: context.watch<AppManager>().themeData,
           home: RootPage(),
           routes: AppRoute.getPageRoutes(context),
         );
-      }),
+      },
     );
   }
 }
