@@ -17,10 +17,10 @@ class AppManager extends ChangeNotifier {
     _themeData = ThemeData(
       primaryColor: theme_color,
     );
-    initTheme();
+    _initTheme();
   }
 
-  void initTheme() async {
+  void _initTheme() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     int colorValue = sharedPreferences.getInt(themeKey);
     Color color;

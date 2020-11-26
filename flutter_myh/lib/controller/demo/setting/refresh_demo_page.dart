@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+
 import '../../../base/hud.dart';
+import '../../../base/base_container.dart';
 
 class RefreshDemoPage extends StatefulWidget {
   @override
@@ -58,20 +60,14 @@ class _RefreshDemoPageState extends State<RefreshDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('easyrefresh运用'),
+    return BaseContainer(
+      title: 'easyrefresh运用',
+      body: SafeArea(
+        child: Selector<RefreshListModel, List<int>>(
+            builder: (_, list, __) => buildSampleDemo(context, list),
+            selector: (_, listModel) => listModel.list),
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => _listModel,
-        builder: (_, __) {
-          return SafeArea(
-            child: Selector<RefreshListModel, List<int>>(
-                builder: (_, list, __) => buildSampleDemo(context, list),
-                selector: (_, listModel) => listModel.list),
-          );
-        },
-      ),
+      model: _listModel,
     );
   }
 

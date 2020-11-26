@@ -16,14 +16,14 @@ class _ThemePageState extends State<ThemePage> {
     super.initState();
     _list = List();
     List titles = [
+      '默认',
       '红色',
       '蓝色',
-      '默认',
     ];
     List colors = [
+      theme_color,
       Colors.red,
       Colors.green,
-      theme_color,
     ];
     for (int i = 0; i < titles.length; i++) {
       ThemeModel model = ThemeModel()

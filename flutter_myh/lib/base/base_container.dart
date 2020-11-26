@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'custom_app_bar.dart';
 import 'base_widget.dart';
+import 'base_scroll_behavior.dart';
 
 class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
   final String title;
@@ -14,6 +17,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
   final Widget body;
   final T model;
   final VoidCallback callback;
+  final SystemUiOverlayStyle overlayStyle;
 
   BaseContainer({
     this.title,
@@ -24,32 +28,37 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
     this.showNav = true,
     this.backgroundColor = Colors.white,
     this.navColor,
+    this.overlayStyle,
     @required this.body,
     @required this.model,
     this.callback,
   });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        leading: leading,
-        tailing: tailing,
-        callBack: callback,
-        navColor: navColor,
-        title: titleView != null
-            ? titleView
-            : Text(
-                title ?? '',
-                style: TextStyle(
-                  color: titleColor ?? Colors.white,
-                  fontSize: 16,
+    return AnnotatedRegion(
+      value: overlayStyle ?? SystemUiOverlayStyle.light,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leading: leading,
+          tailing: tailing,
+          callBack: callback,
+          navColor: navColor,
+          title: titleView != null
+              ? titleView
+              : Text(
+                  title ?? '',
+                  style: TextStyle(
+                    color: titleColor ?? Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-      ),
-      body: SafeArea(
-        child: BaseWidget<T>(
-          child: body,
-          model: model,
+        ),
+        body: ScrollConfiguration(
+          behavior: BaseScrollBehavior(),
+          child: BaseWidget<T>(
+            child: body,
+            model: model,
+          ),
         ),
       ),
     );
