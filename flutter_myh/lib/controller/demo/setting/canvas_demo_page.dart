@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../base/app_manager.dart';
 import '../../../base/common_util.dart';
 
 class CanvasDemoPage extends StatefulWidget {
@@ -64,11 +65,12 @@ class CanvasDemoPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    Color color = AppManager().themeData.primaryColor;
     //網格背景
     var paint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill //填充
-      ..color = Colors.green.withOpacity(0.4); //背景为纸黄色
+      ..color = color.withOpacity(0.4); //背景为纸黄色
     canvas.drawRect(Offset.zero & topSize, paint);
 
     var progressPaint = Paint()..isAntiAlias = true;
@@ -81,7 +83,7 @@ class CanvasDemoPainter extends CustomPainter {
 
     progressPaint
       ..style = PaintingStyle.fill
-      ..color = Colors.green
+      ..color = color
       ..strokeWidth = 10;
 
     canvas.drawRect(Offset(0.0, 0.0) & Size(eWidth, eHeight), progressPaint);
