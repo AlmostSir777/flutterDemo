@@ -14,18 +14,15 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
 }
 
 class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
-  T model;
-
   @override
   void initState() {
-    model = widget.model;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>.value(
-      value: model,
+      value: widget.model,
       child: widget.child,
     );
   }
