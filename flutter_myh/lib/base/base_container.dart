@@ -64,3 +64,58 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
     );
   }
 }
+
+class BaseNormalContainer extends StatelessWidget {
+  final String title;
+  final Color titleColor;
+  final Widget titleView;
+  final Widget leading;
+  final Widget tailing;
+  final bool showNav;
+  final Color backgroundColor;
+  final Color navColor;
+  final Widget body;
+  final VoidCallback callback;
+  final SystemUiOverlayStyle overlayStyle;
+
+  BaseNormalContainer({
+    this.title,
+    this.titleColor,
+    this.titleView,
+    this.leading,
+    this.tailing,
+    this.showNav = true,
+    this.backgroundColor = Colors.white,
+    this.navColor,
+    this.overlayStyle,
+    @required this.body,
+    this.callback,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion(
+      value: overlayStyle ?? SystemUiOverlayStyle.light,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leading: leading,
+          tailing: tailing,
+          callBack: callback,
+          navColor: navColor,
+          title: titleView != null
+              ? titleView
+              : Text(
+                  title ?? '',
+                  style: TextStyle(
+                    color: titleColor ?? Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+        ),
+        body: ScrollConfiguration(
+          behavior: BaseScrollBehavior(),
+          child: body,
+        ),
+      ),
+    );
+  }
+}

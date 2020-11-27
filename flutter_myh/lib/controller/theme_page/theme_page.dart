@@ -48,10 +48,7 @@ class _ThemePageState extends State<ThemePage> {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                ThemeData data = ThemeData(
-                  primaryColor: model.color,
-                );
-                AppManager.instance.configTheme(data);
+                AppManager.instance.configThemeWithBarColor(model.color);
               },
               child: Container(
                 child: Column(

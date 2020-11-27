@@ -141,7 +141,7 @@ class Toast {
   static BuildContext _context;
   static void toast(
     String msg, {
-    BuildContext context,
+    @required BuildContext context,
   }) async {
     assert(msg != null);
     _msg = msg;

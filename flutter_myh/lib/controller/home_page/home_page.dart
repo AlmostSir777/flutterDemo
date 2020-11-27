@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_myh/base/base_widget.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/root_page_model.dart';
 import '../demo/home/padding_align_center_demo.dart';
 import '../../base/push_route_tool.dart';
 import '../demo/home/subject_page.dart';
 import 'home_page_routes.dart';
+import '../../base/base_container.dart';
 
 class HomeActivity extends StatefulWidget {
   @override
@@ -33,14 +36,10 @@ class _HomeActivityState extends State<HomeActivity>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('首页'),
-      ),
-      body: Container(
-        color: Colors.white,
-        child: StarView(),
-      ),
+    return BaseNormalContainer(
+      title: '首页',
+      leading: Container(),
+      body: StarView(),
     );
   }
 }
@@ -51,43 +50,23 @@ class StarView extends StatefulWidget {
 }
 
 class _StarViewState extends State<StarView> {
-  int starNum = 10;
-  List listModels = List<ListModel>();
-
-  void _getData() {
-    List avatarArr = [
-      'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2319772070,3114389419&fm=26&gp=0.jpg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601197789533&di=f7acc1820e1094c9bbef458f93cd82b4&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F01%2F20141101171342_xHRH2.jpeg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601197789532&di=8bb423fa11efc97d89ba571fa0008d16&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201410%2F09%2F20141009224754_AswrQ.jpeg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601197789532&di=f96c5afe1f5b32671ecd9164cbaa52a3&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Ff331c6a4056b8fc7766941647aa3534927ce0005c5c5-b9WRQf_fw658',
-    ];
-    List titleArr = [
-      '传值以及回调',
-      'provider状态管理',
-      'padding-align-center运用',
-      '发布页面'
-    ];
-    for (int i = 0; i < titleArr.length; i++) {
-      ListModel model = ListModel(i, titleArr[i], avatarArr[i]);
-      listModels.add(model);
-    }
-  }
-
-  void _starClick() {
-    setState(() {
-      starNum++;
-    });
-  }
-
+  HomeViewModel _viewModel;
   @override
   void initState() {
+    _viewModel = HomeViewModel();
     super.initState();
-    _getData();
+    _viewModel.loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildListView();
+    return BaseWidget<HomeViewModel>(
+      model: _viewModel,
+      child: Selector<HomeViewModel, List<ListModel>>(
+        builder: (_, list, __) => _buildListView(list),
+        selector: (_, viewModel) => viewModel.listModels,
+      ),
+    );
   }
 
   Column _buildTopView() {
@@ -140,11 +119,15 @@ class _StarViewState extends State<StarView> {
                     Icons.star,
                     color: Colors.red[500],
                   ),
-                  Text('$starNum'),
+                  Selector<HomeViewModel, int>(
+                      builder: (_, int starNum, __) {
+                        return Text('$starNum');
+                      },
+                      selector: (_, viewModel) => viewModel.starNum),
                 ],
               ),
             ),
-            onTap: _starClick,
+            onTap: _viewModel.addNum(),
           ),
         ],
       ),
@@ -270,7 +253,7 @@ class _StarViewState extends State<StarView> {
     );
   }
 
-  Widget _buildListView() {
+  Widget _buildListView(List<ListModel> listModels) {
     return ListView.builder(
       itemCount: listModels.length + 1,
       itemBuilder: (BuildContext context, int row) {
@@ -331,7 +314,7 @@ class _StarViewState extends State<StarView> {
     if (result == null) return;
     ListModel currentModel = result;
     setState(() {
-      for (ListModel obj in listModels) {
+      for (ListModel obj in _viewModel.listModels) {
         if (obj.index == currentModel.index) {
           obj.name = currentModel.name;
         }
@@ -344,7 +327,7 @@ class _StarViewState extends State<StarView> {
   }
 
   ListModel _checkIndex(int index) {
-    return listModels[index - 1];
+    return _viewModel.listModels[index - 1];
   }
 
   Widget _getRow(ListModel model) {

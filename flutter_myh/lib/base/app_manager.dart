@@ -13,6 +13,7 @@ class AppManager extends ChangeNotifier {
 
   ThemeData _themeData;
   ThemeData get themeData => _themeData;
+
   AppManager._internal() {
     _themeData = ThemeData(
       primaryColor: theme_color,
@@ -28,14 +29,15 @@ class AppManager extends ChangeNotifier {
       color = Color(colorValue);
       print(color);
       if (color != _themeData.primaryColor) {
-        configTheme(ThemeData(
-          primaryColor: color,
-        ));
+        configThemeWithBarColor(color);
       }
     }
   }
 
-  void configTheme(ThemeData themeData) async {
+  void configThemeWithBarColor(Color color) async {
+    ThemeData themeData = ThemeData(
+      primaryColor: color,
+    );
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool isSuccess = await sharedPreferences.setInt(
       themeKey,
