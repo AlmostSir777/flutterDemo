@@ -38,7 +38,7 @@ class _HomeActivityState extends State<HomeActivity>
     super.build(context);
     return BaseNormalContainer(
       title: '首页',
-      leading: Container(),
+      isRootPage: true,
       body: StarView(),
     );
   }
@@ -127,7 +127,7 @@ class _StarViewState extends State<StarView> {
                 ],
               ),
             ),
-            onTap: _viewModel.addNum(),
+            onTap: () => _viewModel.addNum(),
           ),
         ],
       ),

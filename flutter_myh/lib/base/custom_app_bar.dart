@@ -9,12 +9,14 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget tailing;
   final Color navColor;
   final VoidCallback callBack;
+  final bool isRootPage;
   CustomAppBar({
     this.title,
     this.leading,
     this.tailing,
     this.navColor,
     this.callBack,
+    this.isRootPage,
   });
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -40,17 +42,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            GestureDetector(
-              child: widget.leading ??
-                  Image.asset('lib/assets/images/nav_back_white.png'),
-              onTap: () {
-                if (widget.callBack != null) {
-                  widget.callBack();
-                } else {
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
+            widget.isRootPage
+                ? Container()
+                : GestureDetector(
+                    child: widget.leading ??
+                        Image.asset('lib/assets/images/nav_back_white.png'),
+                    onTap: () {
+                      if (widget.callBack != null) {
+                        widget.callBack();
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
             widget.title ?? Container(),
             widget.tailing ?? Container(),
           ],

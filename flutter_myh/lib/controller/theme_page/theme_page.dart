@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myh/const/config.dart';
+import 'package:provider/provider.dart';
 
+import '../../base/base_container.dart';
 import '../../base/app_manager.dart';
+import './model/theme_view_model.dart';
 
 class ThemePage extends StatefulWidget {
   @override
@@ -9,77 +12,62 @@ class ThemePage extends StatefulWidget {
 }
 
 class _ThemePageState extends State<ThemePage> {
-  List<ThemeModel> _list;
+  ThemeViewModel _viewModel;
 
   @override
   void initState() {
+    _viewModel = ThemeViewModel();
     super.initState();
-    _list = List();
-    List titles = [
-      '默认',
-      '红色',
-      '蓝色',
-    ];
-    List colors = [
-      theme_color,
-      Colors.red,
-      Colors.green,
-    ];
-    for (int i = 0; i < titles.length; i++) {
-      ThemeModel model = ThemeModel()
-        ..color = colors[i]
-        ..title = titles[i];
-      _list.add(model);
-    }
+    _viewModel.loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('主题'),
-        ),
-        body: ListView.builder(
-          padding: EdgeInsets.all(10),
-          itemCount: _list.length,
-          itemBuilder: (_, int row) {
-            ThemeModel model = _list[row];
-            bool isSelect = AppManager().themeData.primaryColor == model.color;
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                AppManager.instance.configThemeWithBarColor(model.color);
+    return BaseContainer<ThemeViewModel>(
+        isRootPage: true,
+        title: '主题设置',
+        body: Consumer<ThemeViewModel>(
+          builder: (_, viewModel, __) {
+            return ListView.builder(
+              padding: EdgeInsets.all(10),
+              itemCount: viewModel.list.length,
+              itemBuilder: (_, int row) {
+                ThemeModel model = viewModel.list[row];
+                bool isSelect =
+                    AppManager().themeData.primaryColor == model.color;
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    AppManager.instance.configThemeWithBarColor(model.color);
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 49,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(model.title),
+                              isSelect ? Icon(Icons.select_all) : Container(),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 1,
+                          color: line_color,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: 49,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(model.title),
-                          isSelect ? Icon(Icons.select_all) : Container(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 1,
-                      color: line_color,
-                    ),
-                  ],
-                ),
-              ),
             );
           },
-        ));
+        ),
+        model: _viewModel);
   }
-}
-
-class ThemeModel {
-  Color color;
-  String title;
 }
