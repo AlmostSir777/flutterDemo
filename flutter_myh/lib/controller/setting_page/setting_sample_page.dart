@@ -26,6 +26,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       '图片选择器',
       '视频播放器',
       '裁剪',
+      'flutter_redux练习'
     ];
     super.initState();
   }
@@ -111,6 +112,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.videoPlayer);
     } else if (row == 11) {
       Navigator.pushNamed(context, SettingPageRoutes.clip);
+    } else if (row == 12) {
+      Navigator.pushNamed(context, SettingPageRoutes.redux);
     }
   }
 

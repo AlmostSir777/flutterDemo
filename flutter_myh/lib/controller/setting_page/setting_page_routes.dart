@@ -28,6 +28,7 @@ class SettingPageRoutes {
   static String imagePicker = settingRoute + other + 'imagePicker';
   static String videoPlayer = settingRoute + other + 'videoPlayer';
   static String clip = settingRoute + other + 'clip';
+  static String redux = settingRoute + other + 'redux';
 
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -48,6 +49,7 @@ class SettingPageRoutes {
       imagePicker: (_) => ImagePickerDemoPage(),
       videoPlayer: (_) => VideoPlayerPage(),
       clip: (_) => ClipDemoPage(),
+      redux: (_) => ReduxDemoPage(),
     };
   }
 }

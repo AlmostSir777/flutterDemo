@@ -47,12 +47,9 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
           navColor: navColor,
           title: titleView != null
               ? titleView
-              : Text(
-                  title ?? '',
-                  style: TextStyle(
-                    color: titleColor ?? Colors.white,
-                    fontSize: 18,
-                  ),
+              : AppBarTitle(
+                  title: title,
+                  textColor: titleColor,
                 ),
           isRootPage: isRootPage,
         ),
@@ -108,12 +105,9 @@ class BaseNormalContainer extends StatelessWidget {
           navColor: navColor,
           title: titleView != null
               ? titleView
-              : Text(
-                  title ?? '',
-                  style: TextStyle(
-                    color: titleColor ?? Colors.white,
-                    fontSize: 18,
-                  ),
+              : AppBarTitle(
+                  title: title,
+                  textColor: titleColor,
                 ),
           isRootPage: isRootPage,
         ),
@@ -121,6 +115,28 @@ class BaseNormalContainer extends StatelessWidget {
           behavior: BaseScrollBehavior(),
           child: body,
         ),
+      ),
+    );
+  }
+}
+
+class AppBarTitle extends StatelessWidget {
+  final String title;
+  final Color textColor;
+  AppBarTitle({
+    this.title,
+    this.textColor,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title ?? '',
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: textColor ?? Colors.white,
+        fontSize: 18,
       ),
     );
   }

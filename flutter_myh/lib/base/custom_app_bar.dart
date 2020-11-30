@@ -38,7 +38,47 @@ class _CustomAppBarState extends State<CustomAppBar> {
           left: 12,
           right: 12,
         ),
-        child: Row(
+        child: Stack(
+          fit: StackFit.loose,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                widget.isRootPage
+                    ? Container()
+                    : GestureDetector(
+                        child: widget.leading ??
+                            Image.asset('lib/assets/images/nav_back_white.png'),
+                        onTap: () {
+                          if (widget.callBack != null) {
+                            widget.callBack();
+                          } else {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                widget.tailing ?? Container(),
+              ],
+            ),
+            Center(
+                child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: 10,
+                maxWidth: CommonUtil.scaleWidth(400),
+              ),
+              child: widget.title ?? Container(),
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*
+
+Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -58,8 +98,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             widget.title ?? Container(),
             widget.tailing ?? Container(),
           ],
-        ),
-      ),
-    );
-  }
-}
+        )
+
+*/
