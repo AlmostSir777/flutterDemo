@@ -18,6 +18,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
   final T model;
   final VoidCallback callback;
   final SystemUiOverlayStyle overlayStyle;
+  final bool isRootPage;
 
   BaseContainer({
     this.title,
@@ -32,6 +33,7 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
     @required this.body,
     @required this.model,
     this.callback,
+    this.isRootPage = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -49,9 +51,10 @@ class BaseContainer<T extends ChangeNotifier> extends StatelessWidget {
                   title ?? '',
                   style: TextStyle(
                     color: titleColor ?? Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
+          isRootPage: isRootPage,
         ),
         body: ScrollConfiguration(
           behavior: BaseScrollBehavior(),
@@ -77,6 +80,7 @@ class BaseNormalContainer extends StatelessWidget {
   final Widget body;
   final VoidCallback callback;
   final SystemUiOverlayStyle overlayStyle;
+  final bool isRootPage;
 
   BaseNormalContainer({
     this.title,
@@ -90,6 +94,7 @@ class BaseNormalContainer extends StatelessWidget {
     this.overlayStyle,
     @required this.body,
     this.callback,
+    this.isRootPage = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -107,9 +112,10 @@ class BaseNormalContainer extends StatelessWidget {
                   title ?? '',
                   style: TextStyle(
                     color: titleColor ?? Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
+          isRootPage: isRootPage,
         ),
         body: ScrollConfiguration(
           behavior: BaseScrollBehavior(),

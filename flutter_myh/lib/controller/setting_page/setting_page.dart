@@ -50,7 +50,13 @@ class _SettingControllerState extends State<SettingController>
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('设置'),
+        title: Text(
+          '设置',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
         bottom: TabBar(
           indicatorColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.label,

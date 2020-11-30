@@ -10,9 +10,9 @@ class IconModel extends Object {
 }
 
 class HomeViewModel extends ChangeNotifier {
-  int _starNum = 10;
+  int _starNum;
   int get starNum => _starNum;
-  List _listModels = List<ListModel>();
+  List<ListModel> _listModels;
   List<ListModel> get listModels => _listModels;
   void loadData() {
     List<ListModel> _list = [];
@@ -33,11 +33,15 @@ class HomeViewModel extends ChangeNotifier {
       _list.add(model);
     }
     _listModels = _list;
+
+    _starNum = 10;
+
     notifyListeners();
   }
 
   addNum() {
-    _starNum++;
+    int num = _starNum + 1;
+    _starNum = num;
     notifyListeners();
   }
 }
