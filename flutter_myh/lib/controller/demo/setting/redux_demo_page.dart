@@ -3,6 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../../base/base_container.dart';
+import '../../../controller/setting_page/setting_page_routes.dart';
 
 class ArtcleModel {
   String author;
@@ -79,13 +80,17 @@ class _ReduxDemoPageState extends State<ReduxDemoPage> {
     return StoreProvider(
       store: store,
       child: StoreBuilder<ArtcleState>(builder: (_, store) {
-        return ArticelPage();
+        return ArticelPage(
+          store: store,
+        );
       }),
     );
   }
 }
 
 class ArticelPage extends StatefulWidget {
+  final Store<ArtcleState> store;
+  ArticelPage({this.store});
   @override
   _ArticelPageState createState() => _ArticelPageState();
 }
@@ -122,14 +127,20 @@ class _ArticelPageState extends State<ArticelPage> {
               : ListView.builder(
                   itemCount: viewModel.artcleList.length,
                   itemBuilder: (_, int row) {
-                    return ListTile(
-                      subtitle: Text(viewModel.artcleList[row].id.toString()),
-                      title: Text(viewModel.artcleList[row].title),
-                      leading: Text(viewModel.artcleList[row].author),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () =>
-                            viewModel.removeItem(viewModel.artcleList[row]),
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => Navigator.pushNamed(
+                          context, SettingPageRoutes.reduxDetail,
+                          arguments: widget.store),
+                      child: ListTile(
+                        subtitle: Text(viewModel.artcleList[row].id.toString()),
+                        title: Text(viewModel.artcleList[row].title),
+                        leading: Text(viewModel.artcleList[row].author),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () =>
+                              viewModel.removeItem(viewModel.artcleList[row]),
+                        ),
                       ),
                     );
                   });
@@ -162,6 +173,59 @@ class ArticleViewModel {
       artcleList: store.state.artcleListState,
       addItem: _addItem,
       removeItem: _removeItem,
+    );
+  }
+}
+
+class ArticleDetailPage extends StatefulWidget {
+  @override
+  _ArticleDetailPageState createState() => _ArticleDetailPageState();
+}
+
+class _ArticleDetailPageState extends State<ArticleDetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    Store<ArtcleState> store = ModalRoute.of(context).settings.arguments;
+    return StoreProvider(
+      store: store,
+      child: StoreBuilder<ArtcleState>(builder: (_, store) {
+        return BaseNormalContainer(
+          title: '详情',
+          tailing: StoreConnector<ArtcleState, ArticleViewModel>(
+            builder: (_, viewModel) {
+              return IconButton(
+                icon: Icon(
+                  Icons.add,
+                  size: 30.0,
+                ),
+                onPressed: () => viewModel.addItem(
+                  ArtcleModel(
+                    id: viewModel.artcleList.length,
+                    title: '测试',
+                    author: 'iOS开发',
+                  ),
+                ),
+              );
+            },
+            converter: (store) => ArticleViewModel.create(store),
+          ),
+          body: StoreConnector<ArtcleState, ArticleViewModel>(
+            builder: (_, viewModel) {
+              return Center(
+                child: GestureDetector(
+                  onTap: () {
+                    if (viewModel.artcleList.length > 0) {
+                      viewModel.removeItem(viewModel.artcleList[0]);
+                    }
+                  },
+                  child: Text('当前数据${viewModel.artcleList.length}条'),
+                ),
+              );
+            },
+            converter: (store) => ArticleViewModel.create(store),
+          ),
+        );
+      }),
     );
   }
 }
