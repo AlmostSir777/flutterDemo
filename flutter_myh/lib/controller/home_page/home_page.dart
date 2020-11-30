@@ -127,7 +127,7 @@ class _StarViewState extends State<StarView> {
                 ],
               ),
             ),
-            onTap: _viewModel.addNum(),
+            onTap: () => _viewModel.addNum(),
           ),
         ],
       ),
