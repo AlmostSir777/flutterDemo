@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../controller/home_page/home_page.dart';
 import '../controller/setting_page/setting_page.dart';
 import '../controller/theme_page/theme_page.dart';
-import '../model/root_page_model.dart';
+import './model/root_page_model.dart';
 import '../base/common_util.dart';
 import '../base/app_manager.dart';
 
