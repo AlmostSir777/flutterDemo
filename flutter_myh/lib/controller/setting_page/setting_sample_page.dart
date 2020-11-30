@@ -25,6 +25,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'provider多个viewModel运用',
       '图片选择器',
       '视频播放器',
+      '裁剪',
     ];
     super.initState();
   }
@@ -108,6 +109,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.imagePicker);
     } else if (row == 10) {
       Navigator.pushNamed(context, SettingPageRoutes.videoPlayer);
+    } else if (row == 11) {
+      Navigator.pushNamed(context, SettingPageRoutes.clip);
     }
   }
 

@@ -219,11 +219,8 @@ class _StarViewState extends State<StarView> {
   }
 
   Widget _buildImage(String url, int flex) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(16)),
       child: Stack(
         children: <Widget>[
           Container(
