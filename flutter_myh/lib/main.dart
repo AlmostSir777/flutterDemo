@@ -23,6 +23,12 @@ class MyApp extends StatelessWidget {
           theme: context.watch<AppManager>().themeData,
           home: RootPage(),
           routes: AppRoute.getPageRoutes(context),
+          onGenerateRoute: (RouteSettings settings) {
+            return MaterialPageRoute(builder: (_) {
+              return AppRoute.customPages()
+                  .buildPage(settings.name, settings.arguments);
+            });
+          },
           locale: Locale('zh', 'CH'),
           localizationsDelegates: [
             GlobalCupertinoLocalizations.delegate,

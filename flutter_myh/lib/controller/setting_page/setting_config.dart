@@ -13,3 +13,5 @@ export '../basics/key_demo_page.dart';
 export '../demo/setting/image_picker.dart';
 export '../demo/setting/video_player.dart';
 export '../demo/setting/clip_demo.dart';
+export '../demo/setting/redux_demo_page.dart';
+export '../demo/setting/fish_redux_demo_page/page.dart';

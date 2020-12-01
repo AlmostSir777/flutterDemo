@@ -5,7 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/root_page_model.dart';
+import '../../tabbar/model/root_page_model.dart';
 import '../demo/home/padding_align_center_demo.dart';
 import '../../base/push_route_tool.dart';
 import '../demo/home/subject_page.dart';
