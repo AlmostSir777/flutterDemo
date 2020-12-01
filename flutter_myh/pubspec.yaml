@@ -39,7 +39,7 @@ dependencies:
   flutter_screenutil: ^2.3.0
   video_player: ^1.0.1
   shared_preferences: ^0.5.12+4
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
