@@ -7,6 +7,7 @@ Reducer<FishReduxDemoState> buildReducer() {
     <Object, Reducer<FishReduxDemoState>>{
       FishReduxDemoAction.add: _onAction,
       FishReduxDemoAction.remove: _onAction,
+      FishReduxDemoAction.loadData: _onAction,
     },
   );
 }
@@ -17,6 +18,8 @@ FishReduxDemoState _onAction(FishReduxDemoState state, Action action) {
     newState.list.add(action.payload);
   } else if (action.type == FishReduxDemoAction.remove) {
     newState.list.remove(action.payload);
+  } else if (action.type == FishReduxDemoAction.loadData) {
+    newState.list.addAll(action.payload);
   }
   return newState;
 }

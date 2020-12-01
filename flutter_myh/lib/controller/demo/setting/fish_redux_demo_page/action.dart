@@ -6,6 +6,7 @@ enum FishReduxDemoAction {
   add,
   remove,
   openDetail,
+  loadData,
 }
 
 class FishReduxDemoActionCreator {
@@ -19,5 +20,9 @@ class FishReduxDemoActionCreator {
 
   static Action openDetail(ArtcleModel item) {
     return Action(FishReduxDemoAction.openDetail, payload: item);
+  }
+
+  static Action loadData(List<ArtcleModel> items) {
+    return Action(FishReduxDemoAction.loadData, payload: items);
   }
 }
