@@ -6,9 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../tabbar/model/root_page_model.dart';
-import '../demo/home/padding_align_center_demo.dart';
-import '../../base/push_route_tool.dart';
-import '../demo/home/subject_page.dart';
 import 'home_page_routes.dart';
 import '../../base/base_container.dart';
 
@@ -286,21 +283,11 @@ class _StarViewState extends State<StarView> {
   }
 
   void _gotoContainerDemo() {
-    Navigator.of(context).push(
-      AnimationCustomRoute(
-        widget: SubjectPage(),
-        type: animationType.rotation,
-      ),
-    );
+    Navigator.pushNamed(context, HomePageRoutes.subjectPage);
   }
 
   void _gotoPaddingAlignCenter() {
-    Navigator.of(context).push(
-      AnimationCustomRoute(
-        widget: PaddingAlignCenter(),
-        type: animationType.scale,
-      ),
-    );
+    Navigator.pushNamed(context, HomePageRoutes.paddingAlignCenter);
   }
 
   void _gotoDetail(ListModel model) async {

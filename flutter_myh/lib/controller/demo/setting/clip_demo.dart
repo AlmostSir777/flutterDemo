@@ -3,7 +3,7 @@ import 'package:flutter_myh/const/config.dart';
 import 'package:flutter/services.dart';
 
 import '../../../base/base_container.dart';
-import '../../../base/push_route_tool.dart';
+import '../../setting_page/setting_page_routes.dart';
 
 class ClipDemoPage extends StatefulWidget {
   @override
@@ -54,12 +54,8 @@ class CircleRectDemo extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       child: ImageDemoView(
         size: Size(100, 100),
-        callback: () => Navigator.of(context).push(
-          AnimationCustomRoute(
-            widget: ImageDetail(),
-            type: animationType.fade,
-          ),
-        ),
+        callback: () =>
+            Navigator.pushNamed(context, SettingPageRoutes.clipDetail),
       ),
     );
   }

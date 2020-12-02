@@ -24,10 +24,7 @@ class MyApp extends StatelessWidget {
           home: RootPage(),
           routes: AppRoute.getPageRoutes(context),
           onGenerateRoute: (RouteSettings settings) {
-            return MaterialPageRoute(builder: (_) {
-              return AppRoute.customPages()
-                  .buildPage(settings.name, settings.arguments);
-            });
+            return AppRoute.getCustomPages(settings);
           },
           locale: Locale('zh', 'CH'),
           localizationsDelegates: [

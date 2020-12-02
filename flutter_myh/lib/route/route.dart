@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/demo/setting/fish_redux_demo_page/page.dart';
+import 'package:flutter/material.dart' hide Page;
+import 'package:fish_redux/fish_redux.dart';
 
 import '../controller/home_page/home_page_routes.dart';
 import '../controller/setting_page/setting_page_routes.dart';
-import 'package:fish_redux/fish_redux.dart';
+import '../controller/setting_page/setting_config.dart';
+import '../base/push_route_tool.dart';
 
 class AppRoute {
   static Map<String, Widget Function(BuildContext)> getPageRoutes(
@@ -16,11 +17,31 @@ class AppRoute {
     return pageRoutes;
   }
 
-  static AbstractRoutes customPages() {
-    return PageRoutes(
-      pages: {
-        SettingPageRoutes.fishRedux: FishReduxDemoPage(),
-      },
+  static Route<dynamic> getCustomPages(RouteSettings settings) {
+    Map<String, Page<Object, dynamic>> pages = {
+      SettingPageRoutes.fishRedux: FishReduxDemoPage(),
+    };
+
+    Map views = {};
+    views.addAll(HomePageRoutes.getCustomPageRoutes());
+    views[SettingPageRoutes.clipDetail] = ImageDetail();
+
+    PageRoutes routes = PageRoutes(pages: pages);
+    animationType type = animationType.slider;
+    if (settings.name == HomePageRoutes.subjectPage) {
+      type = animationType.scale;
+    } else if (settings.name == HomePageRoutes.paddingAlignCenter) {
+      type = animationType.fade;
+    } else if (settings.name == SettingPageRoutes.clipDetail) {
+      type = animationType.fade;
+    }
+    return AnimationCustomRoute(
+      type: type,
+      widget: views[settings.name] ??
+          routes.buildPage(
+            settings.name,
+            settings.arguments,
+          ),
     );
   }
 }
