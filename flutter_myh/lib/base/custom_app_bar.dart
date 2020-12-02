@@ -10,6 +10,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Color navColor;
   final VoidCallback callBack;
   final bool isRootPage;
+  final bool showNav;
   CustomAppBar({
     this.title,
     this.leading,
@@ -17,11 +18,14 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.navColor,
     this.callBack,
     this.isRootPage,
+    this.showNav,
   });
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
   @override
-  Size get preferredSize => Size.fromHeight(Platform.isIOS ? 44.0 : 50.0);
+  Size get preferredSize => showNav ?? true
+      ? Size.fromHeight(Platform.isIOS ? 44.0 : 50.0)
+      : Size.zero;
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
