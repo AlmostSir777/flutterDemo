@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myh/controller/setting_page/setting_config.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -42,12 +43,27 @@ class RemoveArticleItemAction {
   }
 }
 
+class LoadArticleItemAction {
+  List<ArtcleModel> items;
+  LoadArticleItemAction({
+    this.items,
+  });
+
+  static List<ArtcleModel> loadArticleItem(
+      List<ArtcleModel> list, LoadArticleItemAction action) {
+    list?.addAll(action?.items);
+    return list;
+  }
+}
+
 // 绑定action与动作
 final articlesReducers = combineReducers<List<ArtcleModel>>([
   TypedReducer<List<ArtcleModel>, AddArticleItemAction>(
       AddArticleItemAction.addArticleItem),
   TypedReducer<List<ArtcleModel>, RemoveArticleItemAction>(
       RemoveArticleItemAction.removeArticleItem),
+  TypedReducer<List<ArtcleModel>, LoadArticleItemAction>(
+      LoadArticleItemAction.loadArticleItem),
 ]);
 
 class ArtcleState {
@@ -71,12 +87,12 @@ class ReduxDemoPage extends StatefulWidget {
 }
 
 class _ReduxDemoPageState extends State<ReduxDemoPage> {
+  final store = Store<ArtcleState>(
+    artcleReducer,
+    initialState: ArtcleState.initialState(),
+  );
   @override
   Widget build(BuildContext context) {
-    final store = Store<ArtcleState>(
-      artcleReducer,
-      initialState: ArtcleState.initialState(),
-    );
     return StoreProvider(
       store: store,
       child: StoreBuilder<ArtcleState>(builder: (_, store) {
@@ -96,6 +112,24 @@ class ArticelPage extends StatefulWidget {
 }
 
 class _ArticelPageState extends State<ArticelPage> {
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    List<ArtcleModel> list = List();
+    list.add(ArtcleModel(
+      id: 100,
+      title: '测试',
+      author: 'iOS开发',
+    ));
+    StoreProvider.of<ArtcleState>(context)
+        .dispatch(LoadArticleItemAction(items: list));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseNormalContainer(
