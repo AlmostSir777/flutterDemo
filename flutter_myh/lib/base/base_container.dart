@@ -112,6 +112,7 @@ class BaseNormalContainer extends StatelessWidget {
           isRootPage: isRootPage,
           showNav: showNav,
         ),
+        backgroundColor: backgroundColor,
         body: ScrollConfiguration(
           behavior: BaseScrollBehavior(),
           child: body,

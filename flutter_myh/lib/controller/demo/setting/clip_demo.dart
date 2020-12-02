@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myh/const/config.dart';
+import 'package:flutter/services.dart';
 
 import '../../../base/base_container.dart';
 import '../../../base/push_route_tool.dart';
@@ -146,7 +147,10 @@ class ImageDetail extends StatelessWidget {
         'https://p3fx.kgimg.com/v2/fxuserlogo/7e83eb705e9a7dbddfbc4a265e14e018.jpg_200x200.jpg';
     return BaseNormalContainer(
       showNav: false,
+      overlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark, statusBarColor: Colors.black),
       title: '图片详情',
+      backgroundColor: Colors.black,
       body: Center(
         child: GestureDetector(
           onTap: () => Navigator.of(context).pop(),
