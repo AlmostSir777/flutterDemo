@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myh/controller/setting_page/setting_config.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -113,24 +112,6 @@ class ArticelPage extends StatefulWidget {
 
 class _ArticelPageState extends State<ArticelPage> {
   @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  void _loadData() async {
-    await Future.delayed(Duration(seconds: 2));
-    List<ArtcleModel> list = List();
-    list.add(ArtcleModel(
-      id: 100,
-      title: '测试',
-      author: 'iOS开发',
-    ));
-    StoreProvider.of<ArtcleState>(context)
-        .dispatch(LoadArticleItemAction(items: list));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseNormalContainer(
       title: 'redux练习',
@@ -153,6 +134,9 @@ class _ArticelPageState extends State<ArticelPage> {
         converter: (store) => ArticleViewModel.create(store),
       ),
       body: StoreConnector<ArtcleState, ArticleViewModel>(
+        onInit: (store) {
+          ArticleViewModel.create(store).loadData();
+        },
         builder: (_, viewModel) {
           return viewModel.artcleList.length == 0
               ? Center(
@@ -189,11 +173,25 @@ class ArticleViewModel {
   List<ArtcleModel> artcleList;
   Function(ArtcleModel) addItem;
   Function(ArtcleModel) removeItem;
+  Function(List<ArtcleModel>) loadItems;
   ArticleViewModel({
     this.artcleList,
     this.addItem,
     this.removeItem,
+    this.loadItems,
   });
+
+  void loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    List<ArtcleModel> list = List();
+    list.add(ArtcleModel(
+      id: artcleList.length ?? 0,
+      title: '测试',
+      author: 'iOS开发',
+    ));
+    loadItems(list);
+  }
+
   factory ArticleViewModel.create(Store<ArtcleState> store) {
     _addItem(ArtcleModel item) {
       store.dispatch(AddArticleItemAction(item: item));
@@ -203,10 +201,15 @@ class ArticleViewModel {
       store.dispatch(RemoveArticleItemAction(item: item));
     }
 
+    _loadItems(List<ArtcleModel> list) {
+      store.dispatch(LoadArticleItemAction(items: list));
+    }
+
     return ArticleViewModel(
       artcleList: store.state.artcleListState,
       addItem: _addItem,
       removeItem: _removeItem,
+      loadItems: _loadItems,
     );
   }
 }
