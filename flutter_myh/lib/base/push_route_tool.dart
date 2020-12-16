@@ -66,7 +66,7 @@ class AnimationCustomRoute extends PageRouteBuilder {
                 {
                   value = SlideTransition(
                     position: Tween<Offset>(
-                            begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
+                            begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
                         .animate(CurvedAnimation(
                             parent: animation1, curve: Curves.fastOutSlowIn)),
                     child: child,

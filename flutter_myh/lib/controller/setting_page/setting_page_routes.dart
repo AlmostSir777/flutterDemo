@@ -28,6 +28,7 @@ class SettingPageRoutes {
   static String imagePicker = settingRoute + other + 'imagePicker';
   static String videoPlayer = settingRoute + other + 'videoPlayer';
   static String clip = settingRoute + other + 'clip';
+  static String clipDetail = settingRoute + other + 'clipDetail';
   static String redux = settingRoute + other + 'redux';
   static String reduxDetail = settingRoute + other + 'reduxDetail';
   static String fishRedux = settingRoute + other + 'fishRedux';

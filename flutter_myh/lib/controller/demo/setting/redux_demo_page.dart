@@ -42,12 +42,27 @@ class RemoveArticleItemAction {
   }
 }
 
+class LoadArticleItemAction {
+  List<ArtcleModel> items;
+  LoadArticleItemAction({
+    this.items,
+  });
+
+  static List<ArtcleModel> loadArticleItem(
+      List<ArtcleModel> list, LoadArticleItemAction action) {
+    list?.addAll(action?.items);
+    return list;
+  }
+}
+
 // 绑定action与动作
 final articlesReducers = combineReducers<List<ArtcleModel>>([
   TypedReducer<List<ArtcleModel>, AddArticleItemAction>(
       AddArticleItemAction.addArticleItem),
   TypedReducer<List<ArtcleModel>, RemoveArticleItemAction>(
       RemoveArticleItemAction.removeArticleItem),
+  TypedReducer<List<ArtcleModel>, LoadArticleItemAction>(
+      LoadArticleItemAction.loadArticleItem),
 ]);
 
 class ArtcleState {
@@ -71,12 +86,12 @@ class ReduxDemoPage extends StatefulWidget {
 }
 
 class _ReduxDemoPageState extends State<ReduxDemoPage> {
+  final store = Store<ArtcleState>(
+    artcleReducer,
+    initialState: ArtcleState.initialState(),
+  );
   @override
   Widget build(BuildContext context) {
-    final store = Store<ArtcleState>(
-      artcleReducer,
-      initialState: ArtcleState.initialState(),
-    );
     return StoreProvider(
       store: store,
       child: StoreBuilder<ArtcleState>(builder: (_, store) {
@@ -119,6 +134,9 @@ class _ArticelPageState extends State<ArticelPage> {
         converter: (store) => ArticleViewModel.create(store),
       ),
       body: StoreConnector<ArtcleState, ArticleViewModel>(
+        onInit: (store) {
+          ArticleViewModel.create(store).loadData();
+        },
         builder: (_, viewModel) {
           return viewModel.artcleList.length == 0
               ? Center(
@@ -155,11 +173,25 @@ class ArticleViewModel {
   List<ArtcleModel> artcleList;
   Function(ArtcleModel) addItem;
   Function(ArtcleModel) removeItem;
+  Function(List<ArtcleModel>) loadItems;
   ArticleViewModel({
     this.artcleList,
     this.addItem,
     this.removeItem,
+    this.loadItems,
   });
+
+  void loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    List<ArtcleModel> list = List();
+    list.add(ArtcleModel(
+      id: artcleList.length ?? 0,
+      title: '测试',
+      author: 'iOS开发',
+    ));
+    loadItems(list);
+  }
+
   factory ArticleViewModel.create(Store<ArtcleState> store) {
     _addItem(ArtcleModel item) {
       store.dispatch(AddArticleItemAction(item: item));
@@ -169,10 +201,15 @@ class ArticleViewModel {
       store.dispatch(RemoveArticleItemAction(item: item));
     }
 
+    _loadItems(List<ArtcleModel> list) {
+      store.dispatch(LoadArticleItemAction(items: list));
+    }
+
     return ArticleViewModel(
       artcleList: store.state.artcleListState,
       addItem: _addItem,
       removeItem: _removeItem,
+      loadItems: _loadItems,
     );
   }
 }

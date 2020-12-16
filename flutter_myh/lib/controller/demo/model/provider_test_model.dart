@@ -13,16 +13,12 @@ class TimeCountModel extends ChangeNotifier {
 class BannerModel {
   String imgUrl;
   String title;
+  bool isCollect = false;
 }
 
 class BannerViewModel extends ChangeNotifier {
   List<BannerModel> _list = [];
   List<BannerModel> get list => _list;
-
-  // set list(List<BannerModel> value) {
-  //   _list = value;
-  //   notifyListeners();
-  // }
 
   Future<void> loadData() async {
     await Future.delayed(Duration(seconds: 1));

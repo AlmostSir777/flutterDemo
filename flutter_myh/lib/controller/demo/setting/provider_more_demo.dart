@@ -60,7 +60,9 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
                         height: 40,
                         child: Center(
                           child: GestureDetector(
-                            onTap: () => _timeCountModel.timeAdd(),
+                            onTap: () {
+                              _timeCountModel.timeAdd();
+                            },
                             child: Text('点击计数'),
                           ),
                         ),
@@ -81,43 +83,71 @@ class _ProviderMorePageState extends State<ProviderMorePage> {
                     itemCount: viewModel.list.length,
                     itemBuilder: (_, int row) {
                       BannerModel value = viewModel.list[row];
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                            ),
-                            height: 49,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                CachedNetworkImage(
-                                  imageUrl: value.imgUrl,
-                                  width: 40,
-                                  height: 40,
-                                  fit: BoxFit.cover,
-                                ),
-                                Text(value.title),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            color: Colors.black.withOpacity(0.6),
-                            width: MediaQuery.of(context).size.width,
-                            height: 0.5,
-                          ),
-                        ],
-                      );
+                      return BannerItem(item: value);
                     });
               }),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class BannerItem extends StatefulWidget {
+  final BannerModel item;
+  BannerItem({this.item});
+  @override
+  _BannerItemState createState() => _BannerItemState();
+}
+
+class _BannerItemState extends State<BannerItem> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
+          height: 49,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              CachedNetworkImage(
+                imageUrl: widget.item.imgUrl,
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+              Text(widget.item.title),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widget.item.isCollect = !widget.item.isCollect;
+                  });
+                },
+                child: Icon(
+                    widget.item.isCollect ? Icons.flash_on : Icons.flash_off),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.black.withOpacity(0.6),
+          width: MediaQuery.of(context).size.width,
+          height: 0.5,
+        ),
+      ],
     );
   }
 }

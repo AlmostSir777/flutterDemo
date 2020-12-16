@@ -17,10 +17,17 @@ class HomePageRoutes {
   static getHomePageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
       detail: (_) => HomeDetailVC(),
-      paddingAlignCenter: (_) => PaddingAlignCenter(),
+      // paddingAlignCenter: (_) => PaddingAlignCenter(),
       sendDemo: (_) => SendActivity(),
-      subjectPage: (_) => SubjectPage(),
+      // subjectPage: (_) => SubjectPage(),
       containerDemo: (_) => ContainerDemo(),
+    };
+  }
+
+  static getCustomPageRoutes() {
+    return {
+      subjectPage: SubjectPage(),
+      paddingAlignCenter: PaddingAlignCenter(),
     };
   }
 }
