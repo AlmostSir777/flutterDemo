@@ -10,6 +10,7 @@ class AppRoute {
       BuildContext context) {
     Map<String, Widget Function(BuildContext)> pageRoutes = Map();
     // 首页路由
+    
     pageRoutes.addAll(HomePageRoutes.getHomePageRoutes(context));
     // 设置路由
     pageRoutes.addAll(SettingPageRoutes.getSettingPageRoutes(context));
