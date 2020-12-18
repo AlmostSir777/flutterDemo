@@ -265,6 +265,11 @@ class _StarViewState extends State<StarView> {
                     _gotoPaddingAlignCenter();
                   } else if (row == 4) {
                     _gotoSendDemo();
+                  } else if (row == 5) {
+                    Navigator.pushNamed(
+                      context,
+                      HomePageRoutes.graphicalDemo,
+                    );
                   }
                 },
                 child: _getRow(_checkIndex(row)),
