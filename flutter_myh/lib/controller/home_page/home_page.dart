@@ -203,6 +203,10 @@ class _StarViewState extends State<StarView> {
         loop: true,
         onTap: (index) {
           print('点击了第${index + 1}张图片');
+          Navigator.pushNamed(
+            context,
+            HomePageRoutes.animationDemo,
+          );
         },
         onIndexChanged: (value) {
           // int index = value;

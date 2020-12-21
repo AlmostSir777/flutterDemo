@@ -6,6 +6,7 @@ import '../demo/home/send_demo.dart';
 import '../demo/home/subject_page.dart';
 import '../demo/setting/container_demo.dart';
 import '../demo/home/draw_graphical.dart';
+import '../demo/home/animation_test_demo.dart';
 
 class HomePageRoutes {
   static String routeName = 'home';
@@ -15,6 +16,7 @@ class HomePageRoutes {
   static String subjectPage = routeName + 'subjectpage';
   static String containerDemo = routeName + 'containerDemo';
   static String graphicalDemo = routeName + 'graphicalDemo';
+  static String animationDemo = routeName + 'animationDemo';
 
   static getHomePageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -22,6 +24,7 @@ class HomePageRoutes {
       sendDemo: (_) => SendActivity(),
       containerDemo: (_) => ContainerDemo(),
       graphicalDemo: (_) => DrawDemo(),
+      animationDemo: (_) => AnimationTestDemo(),
     };
   }
 
