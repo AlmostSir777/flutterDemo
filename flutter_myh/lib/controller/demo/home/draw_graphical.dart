@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_myh/base/app_manager.dart';
 
@@ -11,7 +9,7 @@ class DrawDemo extends StatefulWidget {
 }
 
 class _DrawDemoState extends State<DrawDemo> {
-  List<AngleModel> _Data = [];
+  List<AngleModel> _data = [];
   @override
   void initState() {
     super.initState();
@@ -20,18 +18,65 @@ class _DrawDemoState extends State<DrawDemo> {
       Colors.yellow,
       AppManager().themeData.primaryColor,
     ];
-    List<int> _nums = [
-      3,
-      4,
-      5,
+    List<List<Coordinate>> _nums = [
+      [
+        Coordinate(
+          x: 10,
+          y: 10,
+        ),
+        Coordinate(
+          x: 80,
+          y: 10,
+        ),
+        Coordinate(
+          x: 50,
+          y: 80,
+        ),
+      ],
+      [
+        Coordinate(
+          x: 10,
+          y: 10,
+        ),
+        Coordinate(
+          x: 80,
+          y: 10,
+        ),
+        Coordinate(
+          x: 80,
+          y: 80,
+        ),
+        Coordinate(
+          x: 10,
+          y: 80,
+        ),
+      ],
+      [
+        Coordinate(
+          x: 10,
+          y: 10,
+        ),
+        Coordinate(
+          x: 80,
+          y: 10,
+        ),
+        Coordinate(
+          x: 120,
+          y: 80,
+        ),
+        Coordinate(
+          x: 80,
+          y: 80,
+        ),
+        Coordinate(
+          x: 10,
+          y: 80,
+        ),
+      ],
     ];
     for (int i = 0; i < _colors.length; i++) {
-      List<Coordinate> _list = [];
-      for (int j = 0; j < _nums[i]; j++) {
-        int x = (j + 1) * 10 + Random().nextInt(100);
-        _list.add(Coordinate(x: x.toDouble(), y: x.toDouble()));
-      }
-      _Data.add(
+      List<Coordinate> _list = _nums[i];
+      _data.add(
         AngleModel(
           spots: _list,
           color: _colors[i],
@@ -57,7 +102,7 @@ class _DrawDemoState extends State<DrawDemo> {
 
   List<TriangleDrawView> _getChildren() {
     List<TriangleDrawView> _list = [];
-    for (AngleModel value in _Data) {
+    for (AngleModel value in _data) {
       _list.add(
         TriangleDrawView(
           spots: value.spots,
