@@ -15,7 +15,7 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
   }
 
   @override
@@ -26,8 +26,11 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
 
   Future<void> _playAnimation() async {
     try {
-      await _animationController.forward()?.orCancel;
-      await _animationController.reverse()?.orCancel;
+      if (_animationController.status == AnimationStatus.completed) {
+        _animationController.reverse();
+      } else if (_animationController.status == AnimationStatus.dismissed) {
+        _animationController.forward();
+      }
     } on TickerCanceled {
       print('animation falied');
     }
@@ -57,14 +60,17 @@ class AnimationShowView extends StatelessWidget {
   final Animation<EdgeInsets> drift; //位移变化
   final Animation<EdgeInsets> imageDrift; //位移变化
   final Animation<BorderRadius> borderRadius; //圆角变化
-  final Animation<double> rightMove; //圆角变化
+  final Animation<double> rightMove; //底部滑动条变化
+  final Animation<double> iconOp;
+  final Animation<double> bottomOp;
+
   AnimationShowView({Key key, this.controller})
       : width = Tween<double>(
           begin: CommonUtil.screenWidth * 0.5,
           end: CommonUtil.screenWidth,
         ).animate(CurvedAnimation(
           parent: controller,
-          curve: Interval(0.0, 0.75, curve: Curves.ease),
+          curve: Interval(0.0, 0.5, curve: Curves.ease),
         )),
         height = Tween<double>(
           begin: CommonUtil.screenHeight * 0.5,
@@ -72,25 +78,33 @@ class AnimationShowView extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 0.75, curve: Curves.ease),
+            curve: Interval(0.0, 0.5, curve: Curves.ease),
           ),
         ),
         drift = EdgeInsetsTween(
           begin: EdgeInsets.only(
+            left: 0.25 * CommonUtil.screenWidth,
             top: CommonUtil.screenHeight * 0.25,
           ),
-          end: EdgeInsets.only(top: 0.0),
+          end: EdgeInsets.only(
+            left: 0.0,
+            top: 0.0,
+          ),
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 0.75, curve: Curves.ease),
+            curve: Interval(0.0, 0.5, curve: Curves.ease),
           ),
         ),
         imageDrift = EdgeInsetsTween(
           begin: EdgeInsets.only(
             top: CommonUtil.screenHeight * 0.35,
+            left: 100,
           ),
-          end: EdgeInsets.only(top: 100.0),
+          end: EdgeInsets.only(
+            top: CommonUtil.screenHeight * 0.3 - 50,
+            left: CommonUtil.screenWidth * 0.5 - 50,
+          ),
         ).animate(
           CurvedAnimation(
             parent: controller,
@@ -103,20 +117,27 @@ class AnimationShowView extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 0.75, curve: Curves.ease),
+            curve: Interval(0.0, 0.5, curve: Curves.ease),
           ),
         ),
         rightMove = Tween<double>(
-          begin: -120,
+          begin: -140,
           end: 0,
         ).animate(CurvedAnimation(
           parent: controller,
-          curve: Interval(0.75, 1.0, curve: Curves.ease),
+          curve: Interval(0.5, 1.0, curve: Curves.ease),
+        )),
+        iconOp = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+          parent: controller,
+          curve: Interval(0.3, 1.0, curve: Curves.linear),
+        )),
+        bottomOp = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+          parent: controller,
+          curve: Interval(0.0, 0.3, curve: Curves.linear),
         )),
         super(key: key);
   @override
   Widget build(BuildContext context) {
-    double backLeft = (CommonUtil.screenWidth - width.value) * 0.5;
     return AnimatedBuilder(
       animation: controller,
       builder: (_, __) {
@@ -125,7 +146,7 @@ class AnimationShowView extends StatelessWidget {
             fit: StackFit.loose,
             children: <Widget>[
               Positioned(
-                left: backLeft,
+                left: drift.value.left,
                 top: drift.value.top,
                 width: width.value,
                 height: height.value,
@@ -144,12 +165,41 @@ class AnimationShowView extends StatelessWidget {
                 ),
               ),
               Positioned(
+                bottom: 100,
+                right: 180,
+                child: Opacity(
+                  opacity: iconOp.value,
+                  child: Container(
+                    color: Colors.black,
+                    width: 50,
+                    height: 50,
+                  ),
+                ),
+              ),
+              Positioned(
                 bottom: 100.0,
                 right: rightMove.value,
-                child: Container(
-                  width: 160,
-                  height: 20,
-                  color: AppManager().themeData.primaryColor,
+                child: Opacity(
+                  opacity: bottomOp.value,
+                  child: Container(
+                    alignment: Alignment(0, 0),
+                    decoration: BoxDecoration(
+                      color: AppManager().themeData.primaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(22.5),
+                        topLeft: Radius.circular(22.5),
+                      ),
+                    ),
+                    width: 160,
+                    height: 45,
+                    child: Text(
+                      '智能练习',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
