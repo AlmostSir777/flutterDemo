@@ -29,11 +29,11 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
   Future<void> _playAnimation() async {
     try {
       if (_animationController.status == AnimationStatus.completed) {
-        _animationController.reverse().whenComplete(() => {
-              setState(() {
-                _isPlaying = false;
-              })
-            });
+        _animationController.reverse().whenComplete(() {
+          setState(() {
+            _isPlaying = false;
+          });
+        });
       } else if (_animationController.status == AnimationStatus.dismissed) {
         setState(() {
           _isPlaying = true;
@@ -84,6 +84,7 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
             Opacity(
               opacity: _isPlaying ? 1.0 : 0.0,
               child: AnimationShowView(
+                key: UniqueKey(),
                 controller: _animationController.view,
               ),
             ),
@@ -102,8 +103,8 @@ class AnimationShowView extends StatelessWidget {
   final Animation<EdgeInsets> imageDrift; //位移变化
   final Animation<BorderRadius> borderRadius; //圆角变化
   final Animation<double> rightMove; //底部滑动条变化
-  final Animation<double> iconOp;
-  final Animation<double> bottomOp;
+  final Animation<double> iconOp; //图片透明度
+  final Animation<double> bottomOp; //按钮透明度
 
   AnimationShowView({Key key, this.controller})
       : width = Tween<double>(
@@ -166,7 +167,7 @@ class AnimationShowView extends StatelessWidget {
           end: 0,
         ).animate(CurvedAnimation(
           parent: controller,
-          curve: Interval(0.5, 1.0, curve: Curves.ease),
+          curve: Interval(0.5, 1.0, curve: Curves.easeInOut),
         )),
         iconOp = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: controller,
@@ -184,8 +185,32 @@ class AnimationShowView extends StatelessWidget {
       builder: (_, __) {
         return Container(
           child: Stack(
-            fit: StackFit.loose,
+            fit: StackFit.expand,
             children: <Widget>[
+              Positioned(
+                left: 0,
+                top: CommonUtil.screenHeight * 0.3 + 100.0,
+                width: CommonUtil.screenWidth,
+                height: 200.0,
+                child: PageView.builder(
+                  itemCount: 3,
+                  itemBuilder: (_, int row) {
+                    return Center(
+                      child: Container(
+                        width: CommonUtil.screenWidth * 0.5,
+                        child: Text(
+                          '1daskdjasdasdajsdlasdjaskdjasldksajdjalskdkjasljkdljkasjdajksdkdasdasdasdasdasas9',
+                          maxLines: 10,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: text_color,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
               Positioned(
                 left: drift.value.left,
                 top: drift.value.top,
