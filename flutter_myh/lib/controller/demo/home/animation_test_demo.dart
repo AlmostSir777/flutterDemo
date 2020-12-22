@@ -11,9 +11,11 @@ class AnimationTestDemo extends StatefulWidget {
 class _AnimationTestDemoState extends State<AnimationTestDemo>
     with TickerProviderStateMixin {
   AnimationController _animationController;
+  bool _isPlaying;
   @override
   void initState() {
     super.initState();
+    _isPlaying = false;
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
   }
@@ -27,8 +29,15 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
   Future<void> _playAnimation() async {
     try {
       if (_animationController.status == AnimationStatus.completed) {
-        _animationController.reverse();
+        _animationController.reverse().whenComplete(() => {
+              setState(() {
+                _isPlaying = false;
+              })
+            });
       } else if (_animationController.status == AnimationStatus.dismissed) {
+        setState(() {
+          _isPlaying = true;
+        });
         _animationController.forward();
       }
     } on TickerCanceled {
@@ -45,8 +54,40 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
         onTap: () {
           _playAnimation();
         },
-        child: AnimationShowView(
-          controller: _animationController.view,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: 0.25 * CommonUtil.screenWidth,
+              top: CommonUtil.screenHeight * 0.25,
+              width: CommonUtil.screenWidth * 0.5,
+              height: CommonUtil.screenHeight * 0.5,
+              child: Opacity(
+                opacity: _isPlaying ? 0.0 : 1.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppManager().themeData.primaryColor,
+                    borderRadius: BorderRadius.circular(40.0),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: CommonUtil.screenHeight * 0.5 - 50,
+              left: 60.0,
+              child: Opacity(
+                opacity: _isPlaying ? 0.0 : 1.0,
+                child: FlutterLogo(
+                  size: 100.0,
+                ),
+              ),
+            ),
+            Opacity(
+              opacity: _isPlaying ? 1.0 : 0.0,
+              child: AnimationShowView(
+                controller: _animationController.view,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -98,8 +139,8 @@ class AnimationShowView extends StatelessWidget {
         ),
         imageDrift = EdgeInsetsTween(
           begin: EdgeInsets.only(
-            top: CommonUtil.screenHeight * 0.35,
-            left: 100,
+            top: CommonUtil.screenHeight * 0.5 - 50,
+            left: 60,
           ),
           end: EdgeInsets.only(
             top: CommonUtil.screenHeight * 0.3 - 50,
