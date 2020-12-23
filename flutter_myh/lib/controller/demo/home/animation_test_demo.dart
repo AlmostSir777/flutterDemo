@@ -92,6 +92,21 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
                 ),
               ),
             ),
+            Positioned(
+              top: CommonUtil.screenHeight * 0.75 - 80,
+              left: 0.25 * CommonUtil.screenWidth,
+              width: 0.5 * CommonUtil.screenWidth,
+              child: Opacity(
+                opacity: _isPlaying ? 0.0 : 1.0,
+                child: Center(
+                  child: Text('语文',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                      )),
+                ),
+              ),
+            ),
             Opacity(
               opacity: _isPlaying ? 1.0 : 0.0,
               child: AnimationShowView(
@@ -140,7 +155,7 @@ class _CustomAnimationDemoState extends State<CustomAnimationDemo>
           controller: _controller.view,
         ),
         Positioned(
-          top: 50,
+          top: CommonUtil.statusBarHeight + 10,
           left: 15,
           child: GestureDetector(
             onTap: () {
@@ -161,9 +176,12 @@ class AnimationShowView extends StatelessWidget {
   final Animation<EdgeInsets> drift; //位移变化
   final Animation<EdgeInsets> imageDrift; //位移变化
   final Animation<BorderRadius> borderRadius; //圆角变化
-  final Animation<double> rightMove; //底部滑动条变化
+  final Animation<double> rightMove1; //底部滑动条变化
+  final Animation<double> rightMove2; //底部滑动条变化
   final Animation<double> iconOp; //图片透明度
   final Animation<double> bottomOp; //按钮透明度
+  final Animation<double> titleTop; // 文字距顶部
+  final Animation<double> fontSize; // 文字大小
 
   AnimationShowView({Key key, this.controller})
       : width = Tween<double>(
@@ -221,12 +239,37 @@ class AnimationShowView extends StatelessWidget {
             curve: Interval(0.0, 0.5, curve: Curves.ease),
           ),
         ),
-        rightMove = Tween<double>(
+        titleTop = Tween<double>(
+          begin: CommonUtil.screenHeight * 0.75 - 80,
+          end: CommonUtil.statusBarHeight + 10,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.0, 0.5, curve: Curves.ease),
+          ),
+        ),
+        fontSize = Tween<double>(
+          begin: 22.0,
+          end: 15.0,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.0, 0.5, curve: Curves.ease),
+          ),
+        ),
+        rightMove1 = Tween<double>(
           begin: -140,
           end: 0,
         ).animate(CurvedAnimation(
           parent: controller,
-          curve: Interval(0.5, 1.0, curve: Curves.easeInOut),
+          curve: Interval(0.5, 0.75, curve: Curves.easeIn),
+        )),
+        rightMove2 = Tween<double>(
+          begin: -140,
+          end: 0,
+        ).animate(CurvedAnimation(
+          parent: controller,
+          curve: Interval(0.75, 1.0, curve: Curves.easeIn),
         )),
         iconOp = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: controller,
@@ -290,20 +333,46 @@ class AnimationShowView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 100,
-                right: 180,
-                child: Opacity(
-                  opacity: iconOp.value,
-                  child: Container(
-                    color: Colors.black,
-                    width: 50,
-                    height: 50,
-                  ),
+                top: titleTop.value,
+                left: 0.25 * CommonUtil.screenWidth,
+                width: 0.5 * CommonUtil.screenWidth,
+                child: Center(
+                  child: Text('语文',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: fontSize.value,
+                      )),
                 ),
               ),
               Positioned(
                 bottom: 100.0,
-                right: rightMove.value,
+                right: rightMove2.value,
+                child: Opacity(
+                  opacity: bottomOp.value,
+                  child: Container(
+                    alignment: Alignment(0, 0),
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(22.5),
+                        topLeft: Radius.circular(22.5),
+                      ),
+                    ),
+                    width: 160,
+                    height: 45,
+                    child: Text(
+                      '练习记录',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 160.0,
+                right: rightMove1.value,
                 child: Opacity(
                   opacity: bottomOp.value,
                   child: Container(
@@ -324,6 +393,18 @@ class AnimationShowView extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 180,
+                bottom: 160,
+                child: Opacity(
+                  opacity: iconOp.value,
+                  child: Container(
+                    color: Colors.red,
+                    width: 45,
+                    height: 45,
                   ),
                 ),
               ),
