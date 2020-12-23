@@ -45,14 +45,25 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
     }
   }
 
+  void _jump() {
+    Navigator.pushNamed(
+      context,
+      HomePageRoutes.customAnimationDemo,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BaseNormalContainer(
-      title: '动画练习',
+    return Scaffold(
+      // title: '动画练习',
       body: GestureDetector(
         behavior: HitTestBehavior.opaque, //自己处理事件
+        onDoubleTap: () {
+          Navigator.pop(context);
+        },
         onTap: () {
-          _playAnimation();
+          // _playAnimation();
+          _jump();
         },
         child: Stack(
           children: <Widget>[
@@ -91,6 +102,54 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomAnimationDemo extends StatefulWidget {
+  @override
+  _CustomAnimationDemoState createState() => _CustomAnimationDemoState();
+}
+
+class _CustomAnimationDemoState extends State<CustomAnimationDemo>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(children: <Widget>[
+        AnimationShowView(
+          key: UniqueKey(),
+          controller: _controller.view,
+        ),
+        Positioned(
+          top: 50,
+          left: 15,
+          child: GestureDetector(
+            onTap: () {
+              _controller.reverse()..whenComplete(() => Navigator.pop(context));
+            },
+            child: Image.asset('lib/assets/images/nav_back_white.png'),
+          ),
+        ),
+      ]),
     );
   }
 }

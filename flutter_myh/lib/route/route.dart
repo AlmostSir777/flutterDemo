@@ -11,7 +11,7 @@ class AppRoute {
       BuildContext context) {
     Map<String, Widget Function(BuildContext)> pageRoutes = Map();
     // 首页路由
-    
+
     pageRoutes.addAll(HomePageRoutes.getHomePageRoutes(context));
     // 设置路由
     pageRoutes.addAll(SettingPageRoutes.getSettingPageRoutes(context));
@@ -31,10 +31,14 @@ class AppRoute {
     animationType type = animationType.slider;
     if (settings.name == HomePageRoutes.subjectPage) {
       type = animationType.scale;
-    } else if (settings.name == HomePageRoutes.paddingAlignCenter) {
+    } else if (settings.name == HomePageRoutes.paddingAlignCenter ||
+        settings.name == SettingPageRoutes.clipDetail ||
+        settings.name == HomePageRoutes.animationDemo) {
       type = animationType.fade;
     } else if (settings.name == SettingPageRoutes.clipDetail) {
       type = animationType.fade;
+    } else if (settings.name == HomePageRoutes.customAnimationDemo) {
+      type = animationType.none;
     }
     return AnimationCustomRoute(
       type: type,

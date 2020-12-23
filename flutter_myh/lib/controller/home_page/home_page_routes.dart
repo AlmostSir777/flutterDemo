@@ -17,6 +17,7 @@ class HomePageRoutes {
   static String containerDemo = routeName + 'containerDemo';
   static String graphicalDemo = routeName + 'graphicalDemo';
   static String animationDemo = routeName + 'animationDemo';
+  static String customAnimationDemo = routeName + 'customAnimationDemo';
 
   static getHomePageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -24,7 +25,7 @@ class HomePageRoutes {
       sendDemo: (_) => SendActivity(),
       containerDemo: (_) => ContainerDemo(),
       graphicalDemo: (_) => DrawDemo(),
-      animationDemo: (_) => AnimationTestDemo(),
+      // animationDemo: (_) => AnimationTestDemo(),
     };
   }
 
@@ -32,6 +33,8 @@ class HomePageRoutes {
     return {
       subjectPage: SubjectPage(),
       paddingAlignCenter: PaddingAlignCenter(),
+      animationDemo: AnimationTestDemo(),
+      customAnimationDemo: CustomAnimationDemo(),
     };
   }
 }

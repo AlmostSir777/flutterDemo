@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum animationType {
+  none,
   fade,
   rotation,
   scale,
@@ -14,7 +15,9 @@ class AnimationCustomRoute extends PageRouteBuilder {
     @required this.widget,
     this.type = animationType.fade,
   }) : super(
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: type == animationType.none
+              ? Duration(milliseconds: 1)
+              : Duration(milliseconds: 500),
           pageBuilder: (BuildContext context, Animation<double> animation1,
               Animation<double> animation2) {
             return widget;
@@ -25,6 +28,11 @@ class AnimationCustomRoute extends PageRouteBuilder {
               Widget child) {
             Widget value;
             switch (type) {
+              case animationType.none:
+                {
+                  value = child;
+                }
+                break;
               case animationType.fade:
                 {
                   value = FadeTransition(
