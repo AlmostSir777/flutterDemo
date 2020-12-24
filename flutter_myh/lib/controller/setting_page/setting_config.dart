@@ -15,3 +15,4 @@ export '../demo/setting/video_player.dart';
 export '../demo/setting/clip_demo.dart';
 export '../demo/setting/redux_demo_page.dart';
 export '../demo/setting/fish_redux_demo_page/page.dart';
+export '../demo/setting/section_list_demo.dart';
