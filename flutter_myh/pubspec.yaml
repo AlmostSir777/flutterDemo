@@ -60,6 +60,7 @@ flutter:
     - lib/assets/images/
     - lib/assets/images/2.0x/
     - lib/assets/images/3.0x/
+    - lib/assets/file/json/tree.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

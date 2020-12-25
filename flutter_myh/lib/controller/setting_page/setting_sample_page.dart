@@ -29,6 +29,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'flutter_redux练习',
       'fish_redux练习',
       '分组练习',
+      '树结构',
     ];
     super.initState();
   }
@@ -120,6 +121,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.fishRedux);
     } else if (row == 14) {
       Navigator.pushNamed(context, SettingPageRoutes.secctionListView);
+    } else if (row == 15) {
+      Navigator.pushNamed(context, SettingPageRoutes.treeListView);
     }
   }
 
