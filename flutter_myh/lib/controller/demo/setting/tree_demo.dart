@@ -42,23 +42,73 @@ class _TreeDemoState extends State<TreeDemo> {
       //   ),
       // ),
       body: _list.length == 0
-          ? Center(child: Text('加载种...'))
+          ? Center(child: Text('加载中...'))
           : SectionListView(
               sectionCount: () => _list.length,
               headerSectionComplete: (_, int section) {
                 NodeModel node = _list[section];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      node.isOpen = !node.isOpen;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10.0),
+                    alignment: Alignment.centerLeft,
+                    height: 45,
+                    child: Text(
+                      node.nodeName + node.level.toString(),
+                    ),
+                  ),
+                );
               },
               itemComplete: (_, IndexPath indexPath) {
                 return _buildSection(
                     _list[indexPath.section].children[indexPath.row]);
               },
-              itemsCount: (int section) =>
-                  _list[section].isOpen ? _list[section].children.length : 0,
-            ),
+              itemsCount: (int section) {
+                print('第${section.toString()}组有' +
+                    (_list[section].isOpen ? _list[section].children.length : 0)
+                        .toString() +
+                    '个元素');
+                return _list[section].isOpen
+                    ? _list[section].children.length
+                    : 0;
+              }),
     );
   }
 
-  Widget _buildSection(NodeModel node) {}
+  Widget _buildSection(NodeModel node) {
+    return SectionListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      sectionCount: () => 1,
+      headerSectionComplete: (_, int section) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              node.isOpen = !node.isOpen;
+            });
+          },
+          child: Container(
+            padding: EdgeInsets.only(
+              left: 10.0 + node.level * 8.0,
+            ),
+            alignment: Alignment.centerLeft,
+            height: 45,
+            child: Text(
+              node.nodeName + node.level.toString(),
+            ),
+          ),
+        );
+      },
+      itemComplete: (_, IndexPath indexPath) {
+        return _buildSection(node.children[indexPath.row]);
+      },
+      itemsCount: (int section) => node.isOpen ? node.children.length : 0,
+    );
+  }
 
   ExpansionPanelList _buildExpansionPanelList(NodeModel value) {
     return ExpansionPanelList(
@@ -100,10 +150,10 @@ class _TreeDemoState extends State<TreeDemo> {
 
 typedef void SelectBlock(NodeModel node);
 
-class NodeItemWidget extends StatelessWidget {
+class CustomNodeItemWidget extends StatelessWidget {
   final NodeModel node;
   final SelectBlock selectBlock;
-  NodeItemWidget({
+  CustomNodeItemWidget({
     this.node,
     this.selectBlock,
   });
@@ -164,14 +214,28 @@ class NodeModel {
   int level;
   bool isOpen;
   bool isSelect;
+  NodeModel parent;
 
-  static show(NodeModel node) {
-    while (node.children.isNotEmpty) {
-      node.isSelect = true;
-      node.children.forEach((obj) {});
+  // 选中
+  static selectAction(NodeModel node, bool isSelect) {
+    node.isSelect = isSelect;
+    if (node.children.isNotEmpty) {
+      node.children.forEach((obj) {
+        NodeModel.selectAction(obj, isSelect);
+      });
     }
   }
 
+  //取消选中
+  static disSelect(NodeModel node) {
+    NodeModel.selectAction(node, false);
+    while (node.level == 0) {
+      node.parent.isSelect = false;
+      node = node.parent;
+    }
+  }
+
+  // 解析
   static List<NodeModel> jsonToData(List value) {
     List<NodeModel> datas = [];
     value.forEach((obj) {
@@ -194,26 +258,12 @@ class NodeModel {
     if (value['Children'] != null) {
       List children = value['Children'];
       children.forEach((obj) {
-        model.children.add(NodeModel.jsonToModel(obj, level + 1));
+        NodeModel subModel = NodeModel.jsonToModel(obj, level + 1)
+          ..parent = model;
+        model.children.add(subModel);
       });
     }
     return model;
-  }
-}
-
-class CustomNodeItemWidget extends StatefulWidget {
-  final NodeModel node;
-  CustomNodeItemWidget({
-    this.node,
-  });
-  @override
-  _CustomNodeItemWidgetState createState() => _CustomNodeItemWidgetState();
-}
-
-class _CustomNodeItemWidgetState extends State<CustomNodeItemWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return SectionListView(itemComplete: null, itemsCount: null);
   }
 }
 

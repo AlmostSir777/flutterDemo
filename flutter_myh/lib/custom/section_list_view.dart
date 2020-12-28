@@ -8,14 +8,6 @@ typedef Widget ItemComplete(BuildContext context, IndexPath indexPath);
 typedef int SectionCount();
 typedef int ItemsCount(int section);
 
-enum SectionNodeType {
-  header,
-  footer,
-  sectionHeader,
-  sectionFooter,
-  item,
-}
-
 class SectionListView extends StatefulWidget {
   final HeaderComplete headerComplete;
   final FooterComplete footerComplete;
@@ -24,6 +16,8 @@ class SectionListView extends StatefulWidget {
   final ItemComplete itemComplete;
   final SectionCount sectionCount;
   final ItemsCount itemsCount;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
   SectionListView({
     this.headerComplete,
@@ -33,6 +27,8 @@ class SectionListView extends StatefulWidget {
     @required this.itemComplete,
     this.sectionCount,
     @required this.itemsCount,
+    this.shrinkWrap = false,
+    this.physics,
   });
   @override
   _SectionListViewState createState() => _SectionListViewState();
@@ -97,6 +93,8 @@ class _SectionListViewState extends State<SectionListView> {
     _loadItemsCount();
     return SafeArea(
       child: ListView.builder(
+        shrinkWrap: widget.shrinkWrap ?? false,
+        physics: widget.physics,
         itemCount: _itemsAllCount,
         itemBuilder: (_, int row) {
           return _loadItems(_, row) ?? Container();
