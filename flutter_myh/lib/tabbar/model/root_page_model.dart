@@ -12,10 +12,10 @@ class IconModel extends Object {
 class HomeViewModel extends ChangeNotifier {
   int _starNum;
   int get starNum => _starNum;
-  List<ListModel> _listModels;
-  List<ListModel> get listModels => _listModels;
+  List<ListDataModel> _listModels;
+  List<ListDataModel> get listModels => _listModels;
   void loadData() {
-    List<ListModel> _list = [];
+    List<ListDataModel> _list = [];
     List avatarArr = [
       'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2319772070,3114389419&fm=26&gp=0.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601197789533&di=f7acc1820e1094c9bbef458f93cd82b4&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F01%2F20141101171342_xHRH2.jpeg',
@@ -31,7 +31,7 @@ class HomeViewModel extends ChangeNotifier {
       '绘制',
     ];
     for (int i = 0; i < titleArr.length; i++) {
-      ListModel model = ListModel(i, titleArr[i], avatarArr[i]);
+      ListDataModel model = ListDataModel(i, titleArr[i], avatarArr[i]);
       _list.add(model);
     }
     _listModels = _list;
@@ -48,11 +48,11 @@ class HomeViewModel extends ChangeNotifier {
   }
 }
 
-class ListModel extends Object {
+class ListDataModel extends Object {
   int index;
   String name;
   String avatar;
-  ListModel(
+  ListDataModel(
     this.index,
     this.name,
     this.avatar,

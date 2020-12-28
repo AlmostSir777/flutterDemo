@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../tabbar/model/root_page_model.dart';
 
 class HomeDetailVC extends StatefulWidget {
-  final ListModel model;
+  final ListDataModel model;
   const HomeDetailVC({
     this.model,
   });
@@ -14,7 +14,7 @@ class HomeDetailVC extends StatefulWidget {
 class _HomeDetailVCState extends State<HomeDetailVC>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  ListModel _model;
+  ListDataModel _model;
   @override
   void initState() {
     super.initState();

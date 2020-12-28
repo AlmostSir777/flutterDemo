@@ -30,17 +30,6 @@ class _TreeDemoState extends State<TreeDemo> {
   Widget build(BuildContext context) {
     return BaseNormalContainer(
       title: '树形结构',
-      // body: SingleChildScrollView(
-      //   child: ExpansionPanelList(
-      //     children: _list.map((node) => _buildExpansionPanel(node)).toList(),
-      //     expansionCallback: (int row, bool isExpand) {
-      //       NodeModel node = _list[row];
-      //       setState(() {
-      //         node.isOpen = !node.isOpen;
-      //       });
-      //     },
-      //   ),
-      // ),
       body: _list.length == 0
           ? Center(child: Text('加载中...'))
           : SectionListView(
@@ -109,99 +98,6 @@ class _TreeDemoState extends State<TreeDemo> {
       itemsCount: (int section) => node.isOpen ? node.children.length : 0,
     );
   }
-
-  ExpansionPanelList _buildExpansionPanelList(NodeModel value) {
-    return ExpansionPanelList(
-      children:
-          value.children.map((node) => _buildExpansionPanel(node)).toList(),
-      expansionCallback: (int row, bool isExpand) {
-        NodeModel node = value.children[row];
-        setState(() {
-          node.isOpen = !node.isOpen;
-        });
-      },
-    );
-  }
-
-  ExpansionPanel _buildExpansionPanel(NodeModel value) {
-    return ExpansionPanel(
-        isExpanded: value.isOpen,
-        headerBuilder: (BuildContext context, bool expand) {
-          return Container(
-            padding: EdgeInsets.only(
-              left: 10 + value.level * 8.0,
-            ),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              value.nodeName,
-              style: TextStyle(
-                color: expand ? theme_color : text_color,
-                fontSize: value.level == 0 ? 16 : 14,
-              ),
-            ),
-          );
-        },
-        canTapOnHeader: value.children.isEmpty,
-        body: value.children.isEmpty
-            ? Container()
-            : _buildExpansionPanelList(value));
-  }
-}
-
-typedef void SelectBlock(NodeModel node);
-
-class CustomNodeItemWidget extends StatelessWidget {
-  final NodeModel node;
-  final SelectBlock selectBlock;
-  CustomNodeItemWidget({
-    this.node,
-    this.selectBlock,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60.0,
-      color: node.isSelect ? theme_color.withOpacity(0.3) : Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                  icon:
-                      Icon(node.isOpen ? Icons.lock_open : Icons.lock_outline),
-                  onPressed: () {
-                    if (selectBlock != null) {
-                      selectBlock(node);
-                    }
-                  }),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                node.nodeName,
-                style: TextStyle(color: theme_color, fontSize: 15),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(right: 10),
-            alignment: Alignment.centerRight,
-            child: Text(
-              node.isSelect ? '选中' : '非选中',
-              style: TextStyle(
-                  color: node.isSelect
-                      ? theme_color
-                      : Colors.grey.withOpacity(0.4),
-                  fontSize: 15),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class NodeModel {
@@ -216,21 +112,42 @@ class NodeModel {
   bool isSelect;
   NodeModel parent;
 
-  // 选中
-  static selectAction(NodeModel node, bool isSelect) {
+  // 向下递归赋值
+  static nextSelect(NodeModel node, bool isSelect) {
     node.isSelect = isSelect;
     if (node.children.isNotEmpty) {
       node.children.forEach((obj) {
-        NodeModel.selectAction(obj, isSelect);
+        NodeModel.nextSelect(obj, isSelect);
       });
     }
   }
 
   //取消选中
   static disSelect(NodeModel node) {
-    NodeModel.selectAction(node, false);
-    while (node.level == 0) {
+    NodeModel.nextSelect(node, false);
+    while (node.level != 0) {
       node.parent.isSelect = false;
+      node = node.parent;
+    }
+  }
+
+  // 选中
+  static select(NodeModel node) {
+    NodeModel.nextSelect(node, true);
+    node = node.parent;
+    while (node.level != 0) {
+      bool isSelect = true;
+      for (NodeModel obj in node.children) {
+        if (!obj.isSelect) {
+          isSelect = false;
+          break;
+        }
+      }
+      if (isSelect) {
+        node.isSelect = isSelect;
+      } else {
+        break;
+      }
       node = node.parent;
     }
   }
@@ -267,52 +184,41 @@ class NodeModel {
   }
 }
 
-class NodeItemWidget extends StatefulWidget {
-  final NodeModel node;
-  NodeItemWidget({
-    this.node,
-  });
-  @override
-  _NodeItemWidgetState createState() => _NodeItemWidgetState();
-}
+class ListModel<E> {
+  ListModel({
+    @required this.listKey,
+    @required this.removedItemBuilder,
+    Iterable<E> initialItems,
+  })  : assert(listKey != null),
+        assert(removedItemBuilder != null),
+        _items = List<E>.from(initialItems ?? <E>[]);
 
-class _NodeItemWidgetState extends State<NodeItemWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: _buildItem(widget.node),
-      contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-      selected: false,
-    );
+  final GlobalKey<SliverAnimatedListState> listKey;
+  final dynamic removedItemBuilder;
+  final List<E> _items;
+
+  SliverAnimatedListState get _animatedList => listKey.currentState;
+
+  void insert(int index, E item) {
+    _items.insert(index, item);
+    _animatedList.insertItem(index);
   }
 
-  Widget _buildItem(NodeModel bean) {
-    if (bean.children.isEmpty) {
-      return ListTile(
-        contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-        selected: false,
-        title: Container(
-          padding: EdgeInsets.only(left: (20 + bean.level * 8).toDouble()),
-          alignment: Alignment.centerLeft,
-          child: Text(bean.nodeName),
-        ),
-        onTap: () {
-          _showSeletedName(bean.nodeName);
-        },
+  E removeAt(int index) {
+    final E removedItem = _items.removeAt(index);
+    if (removedItem != null) {
+      _animatedList.removeItem(
+        index,
+        (BuildContext context, Animation<double> animation) =>
+            removedItemBuilder(removedItem, context, animation),
       );
     }
-    return ExpansionTile(
-      key: PageStorageKey<NodeModel>(bean),
-      title: Container(
-        padding: EdgeInsets.only(left: (bean.level * 8).toDouble()),
-        alignment: Alignment.centerLeft,
-        child: Text(bean.nodeName),
-      ),
-      children: bean.children.map<Widget>(_buildItem).toList(),
-    );
+    return removedItem;
   }
 
-  _showSeletedName(String name) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text("选择的是：" + name)));
-  }
+  int get length => _items.length;
+
+  E operator [](int index) => _items[index];
+
+  int indexOf(E item) => _items.indexOf(item);
 }

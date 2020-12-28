@@ -59,7 +59,7 @@ class _StarViewState extends State<StarView> {
   Widget build(BuildContext context) {
     return BaseWidget<HomeViewModel>(
       model: _viewModel,
-      child: Selector<HomeViewModel, List<ListModel>>(
+      child: Selector<HomeViewModel, List<ListDataModel>>(
         builder: (_, list, __) => _buildListView(list),
         selector: (_, viewModel) => viewModel.listModels,
       ),
@@ -251,7 +251,7 @@ class _StarViewState extends State<StarView> {
     );
   }
 
-  Widget _buildListView(List<ListModel> listModels) {
+  Widget _buildListView(List<ListDataModel> listModels) {
     return ListView.builder(
       itemCount: listModels.length + 1,
       itemBuilder: (BuildContext context, int row) {
@@ -299,15 +299,15 @@ class _StarViewState extends State<StarView> {
     Navigator.pushNamed(context, HomePageRoutes.paddingAlignCenter);
   }
 
-  void _gotoDetail(ListModel model) async {
+  void _gotoDetail(ListDataModel model) async {
     final result = await Navigator.of(context).pushNamed(
       HomePageRoutes.detail,
       arguments: model,
     );
     if (result == null) return;
-    ListModel currentModel = result;
+    ListDataModel currentModel = result;
     setState(() {
-      for (ListModel obj in _viewModel.listModels) {
+      for (ListDataModel obj in _viewModel.listModels) {
         if (obj.index == currentModel.index) {
           obj.name = currentModel.name;
         }
@@ -319,11 +319,11 @@ class _StarViewState extends State<StarView> {
     );
   }
 
-  ListModel _checkIndex(int index) {
+  ListDataModel _checkIndex(int index) {
     return _viewModel.listModels[index - 1];
   }
 
-  Widget _getRow(ListModel model) {
+  Widget _getRow(ListDataModel model) {
     return Container(
       height: 100,
       padding: const EdgeInsets.only(left: 10, right: 10),
