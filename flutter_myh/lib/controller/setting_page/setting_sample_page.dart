@@ -30,6 +30,7 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       'fish_redux练习',
       '分组练习',
       '树结构',
+      '动态列表',
     ];
     super.initState();
   }
@@ -123,6 +124,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.secctionListView);
     } else if (row == 15) {
       Navigator.pushNamed(context, SettingPageRoutes.treeListView);
+    } else if (row == 16) {
+      Navigator.pushNamed(context, SettingPageRoutes.sliverAnimationed);
     }
   }
 

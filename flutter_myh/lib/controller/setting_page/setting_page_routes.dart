@@ -34,6 +34,7 @@ class SettingPageRoutes {
   static String fishRedux = settingRoute + other + 'fishRedux';
   static String secctionListView = settingRoute + other + 'secctionListView';
   static String treeListView = settingRoute + other + 'treeListView';
+  static String sliverAnimationed = settingRoute + other + 'sliverAnimationed';
 
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
@@ -58,6 +59,7 @@ class SettingPageRoutes {
       reduxDetail: (_) => ArticleDetailPage(),
       secctionListView: (_) => SectionListDemo(),
       treeListView: (_) => TreeDemo(),
+      sliverAnimationed: (_) => SliverAnimatedListPage(),
     };
   }
 }
