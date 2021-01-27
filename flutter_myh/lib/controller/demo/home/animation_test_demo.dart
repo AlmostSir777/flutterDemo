@@ -26,24 +26,24 @@ class _AnimationTestDemoState extends State<AnimationTestDemo>
     super.dispose();
   }
 
-  Future<void> _playAnimation() async {
-    try {
-      if (_animationController.status == AnimationStatus.completed) {
-        _animationController.reverse().whenComplete(() {
-          setState(() {
-            _isPlaying = false;
-          });
-        });
-      } else if (_animationController.status == AnimationStatus.dismissed) {
-        setState(() {
-          _isPlaying = true;
-        });
-        _animationController.forward();
-      }
-    } on TickerCanceled {
-      print('animation falied');
-    }
-  }
+  // Future<void> _playAnimation() async {
+  //   try {
+  //     if (_animationController.status == AnimationStatus.completed) {
+  //       _animationController.reverse().whenComplete(() {
+  //         setState(() {
+  //           _isPlaying = false;
+  //         });
+  //       });
+  //     } else if (_animationController.status == AnimationStatus.dismissed) {
+  //       setState(() {
+  //         _isPlaying = true;
+  //       });
+  //       _animationController.forward();
+  //     }
+  //   } on TickerCanceled {
+  //     print('animation falied');
+  //   }
+  // }
 
   void _jump() {
     Navigator.pushNamed(

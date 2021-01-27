@@ -36,7 +36,7 @@ class SectionListView extends StatefulWidget {
 
 class _SectionListViewState extends State<SectionListView> {
   int _itemsAllCount;
-
+  ScrollController _controller;
   void _loadItemsCount() {
     int _itemsCount = 2;
 
@@ -89,16 +89,55 @@ class _SectionListViewState extends State<SectionListView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController()
+      ..addListener(() {
+        print(_controller.offset);
+      });
+  }
+
+  @override
   Widget build(BuildContext context) {
     _loadItemsCount();
     return SafeArea(
-      child: ListView.builder(
-        shrinkWrap: widget.shrinkWrap ?? false,
-        physics: widget.physics,
-        itemCount: _itemsAllCount,
-        itemBuilder: (_, int row) {
-          return _loadItems(_, row) ?? Container();
-        },
+      child: Stack(
+        fit: StackFit.loose,
+        children: <Widget>[
+          Container(
+            height: 20,
+            color: Colors.red,
+          ),
+          NotificationListener(
+            onNotification: (Notification notification) {
+              if (notification is ScrollStartNotification) {
+                print('滚动开始');
+              }
+              if (notification is ScrollUpdateNotification) {
+                print('滚动中');
+              }
+              if (notification is ScrollEndNotification) {
+                print('停止滚动');
+                if (_controller.position.extentAfter == 0) {
+                  print('滚动到底部');
+                }
+                if (_controller.position.extentBefore == 0) {
+                  print('滚动到头部');
+                }
+              }
+              return true;
+            },
+            child: ListView.builder(
+              shrinkWrap: widget.shrinkWrap ?? false,
+              physics: widget.physics,
+              itemCount: _itemsAllCount,
+              controller: _controller,
+              itemBuilder: (_, int row) {
+                return _loadItems(_, row) ?? Container();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:provider/provider.dart';
 
 import '../demo_config.dart';
 
@@ -9,16 +10,14 @@ class EventBusDemoPage extends StatefulWidget {
 }
 
 class _EventBusDemoPageState extends State<EventBusDemoPage> {
-  String changeStr;
+  EventModel _eventModel;
   var currentEvent;
   @override
   void initState() {
     super.initState();
-    changeStr = '点一点';
+    _eventModel = EventModel().._text = '点一点';
     currentEvent = EventModel.eventBus.on<EventModel>().listen((event) {
-      setState(() {
-        changeStr = event.changeStr;
-      });
+      _eventModel.reloadText(event.changeStr);
     });
   }
 
@@ -30,7 +29,7 @@ class _EventBusDemoPageState extends State<EventBusDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseNormalContainer(
+    return BaseContainer(
       title: 'eventBus',
       body: Container(
         child: Center(
@@ -39,16 +38,22 @@ class _EventBusDemoPageState extends State<EventBusDemoPage> {
               // eventBus.fire('变变变');
               Navigator.pushNamed(context, SettingPageRoutes.eventBusDetail);
             },
-            child: Text(
-              changeStr,
-              style: TextStyle(
-                color: text_color,
-                fontSize: 16,
-              ),
+            child: Selector<EventModel, String>(
+              builder: (_, text, __) {
+                return Text(
+                  text,
+                  style: TextStyle(
+                    color: text_color,
+                    fontSize: 16,
+                  ),
+                );
+              },
+              selector: (_, viewModel) => viewModel.text,
             ),
           ),
         ),
       ),
+      model: _eventModel,
     );
   }
 }
@@ -86,8 +91,14 @@ class _EventBusDetailPageState extends State<EventBusDetailPage> {
   }
 }
 
-class EventModel {
+class EventModel extends ChangeNotifier {
+  String _text = '点一点';
+  String get text => _text;
   static EventBus eventBus = EventBus();
   String changeStr;
   EventModel({this.changeStr});
+  reloadText(String text) {
+    _text = text;
+    notifyListeners();
+  }
 }

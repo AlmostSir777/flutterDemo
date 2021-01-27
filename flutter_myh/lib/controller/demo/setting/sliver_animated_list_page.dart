@@ -8,7 +8,7 @@ class SliverAnimatedListPage extends StatefulWidget {
 }
 
 class _SliverAnimatedListPageState extends State<SliverAnimatedListPage> {
-  @override
+  
   List<int> _list = [
     1,
     2,
