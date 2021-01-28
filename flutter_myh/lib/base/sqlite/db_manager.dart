@@ -4,7 +4,11 @@ import 'package:sqflite/sqlite_api.dart';
 
 import 'db_base_bean.dart';
 
+export 'db_base_bean.dart';
+
 class DbManager {
+  static const String UserInfoTable = 'UserInfo';
+
   DbManager._();
 
   // 数据库路径
@@ -33,7 +37,7 @@ class DbManager {
         version: dbVersion, onCreate: (db, version) async {
       // 用户表
       await db.execute(
-          'CREATE TABLE UserInfo (userName TEXT PRIMARY KEY, nickName TEXT, headImgUrl TEXT, phone TEXT, updateTime Text)');
+          'CREATE TABLE UserInfo (userId TEXT PRIMARY KEY, nickName TEXT, headImgUrl TEXT, phone TEXT)');
     }, onUpgrade: (db, oldversion, newVersion) {
       // 版本更新可能牵扯到重新插入表、删除表、表中字段变更-具体更新相关sql语句进行操作
     });
@@ -109,7 +113,8 @@ class DbManager {
 
   // 关闭db
   closeDb() async {
-    if (null != database || database.isOpen) {
+    if (database == null) return;
+    if (database != null || (database.isOpen)) {
       await database.close();
       database = null;
     }

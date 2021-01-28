@@ -19,3 +19,4 @@ export '../demo/setting/section_list_demo.dart';
 export '../demo/setting/tree_demo.dart';
 export '../demo/setting/sliver_animated_list_page.dart';
 export '../demo/setting/event_bus_page.dart';
+export '../demo/setting/sqlite_demo_page.dart';

@@ -31,7 +31,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       '分组练习',
       '树结构',
       '动态列表',
-      'eventBus运用'
+      'eventBus运用',
+      '数据库运用',
     ];
     super.initState();
   }
@@ -129,6 +130,8 @@ class _SettingSampleDemoPageState extends State<SettingSampleDemoPage>
       Navigator.pushNamed(context, SettingPageRoutes.sliverAnimationed);
     } else if (row == 17) {
       Navigator.pushNamed(context, SettingPageRoutes.eventBus);
+    } else if (row == 18) {
+      Navigator.pushNamed(context, SettingPageRoutes.sqliteDemo);
     }
   }
 

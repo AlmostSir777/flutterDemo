@@ -37,6 +37,8 @@ class SettingPageRoutes {
   static String sliverAnimationed = settingRoute + other + 'sliverAnimationed';
   static String eventBus = settingRoute + other + 'eventBus';
   static String eventBusDetail = settingRoute + other + 'eventBusDetail';
+  static String sqliteDemo = settingRoute + other + 'sqlite';
+
   static getSettingPageRoutes(BuildContext context) {
     return <String, Widget Function(BuildContext)>{
       animationBottom: (_) => AnimationBottomPage(),
@@ -63,6 +65,7 @@ class SettingPageRoutes {
       sliverAnimationed: (_) => SliverAnimatedListPage(),
       eventBus: (_) => EventBusDemoPage(),
       eventBusDetail: (_) => EventBusDetailPage(),
+      sqliteDemo: (_) => SqliteDemoPage(),
     };
   }
 }
