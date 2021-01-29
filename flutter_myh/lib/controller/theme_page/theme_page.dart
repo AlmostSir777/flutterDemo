@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myh/base/common_util.dart';
 import 'package:flutter_myh/const/config.dart';
 import 'package:provider/provider.dart';
 
@@ -13,11 +14,18 @@ class ThemePage extends StatefulWidget {
 
 class _ThemePageState extends State<ThemePage> {
   ThemeViewModel _viewModel;
-
+  ScrollController _scrollController;
   @override
   void initState() {
     _viewModel = ThemeViewModel();
     super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        RenderBox renderBox =
+            _viewModel.keys.first.currentContext.findRenderObject();
+        var offset = renderBox.localToGlobal(Offset.zero);
+        print(offset.dy - CommonUtil.navHeight - 10);
+      });
     _viewModel.loadData();
   }
 
@@ -29,13 +37,16 @@ class _ThemePageState extends State<ThemePage> {
         body: Consumer<ThemeViewModel>(
           builder: (_, viewModel, __) {
             return ListView.builder(
+              controller: _scrollController,
               padding: EdgeInsets.all(10),
               itemCount: viewModel.list.length,
+              physics: AlwaysScrollableScrollPhysics(),
               itemBuilder: (_, int row) {
                 ThemeModel model = viewModel.list[row];
                 bool isSelect =
                     AppManager().themeData.primaryColor == model.color;
                 return GestureDetector(
+                  key: _viewModel.keys[row],
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     AppManager.instance.configThemeWithBarColor(model.color);

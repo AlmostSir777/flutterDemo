@@ -4,6 +4,13 @@ import '../../../const/config.dart';
 class ThemeViewModel extends ChangeNotifier {
   List<ThemeModel> _list;
   List<ThemeModel> get list => _list;
+
+  List<GlobalKey> keys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
+
   loadData() {
     _list = List();
     List titles = [
