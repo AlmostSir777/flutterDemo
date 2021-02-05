@@ -24,7 +24,15 @@ class _ThemePageState extends State<ThemePage> {
         RenderBox renderBox =
             _viewModel.keys.first.currentContext.findRenderObject();
         var offset = renderBox.localToGlobal(Offset.zero);
-        print(offset.dy - CommonUtil.navHeight - 10);
+        RenderBox renderBox1 =
+            _viewModel.keys.last.currentContext.findRenderObject();
+        var offset1 = renderBox1.localToGlobal(Offset.zero);
+        print('offset:' +
+            (offset.dy - CommonUtil.navHeight - 10).toString() +
+            '\n');
+        print('offset1:' +
+            (offset1.dy - CommonUtil.navHeight - 10).toString() +
+            '\n');
       });
     _viewModel.loadData();
   }

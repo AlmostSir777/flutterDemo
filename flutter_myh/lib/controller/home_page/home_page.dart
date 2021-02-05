@@ -196,10 +196,11 @@ class _StarViewState extends State<StarView> {
         scrollDirection: Axis.horizontal,
         autoplay: true,
         viewportFraction: 0.8,
-        layout: SwiperLayout.STACK,
+        layout: SwiperLayout.DEFAULT,
         itemWidth: MediaQuery.of(context).size.width,
         itemHeight: 300,
-        scale: 0.8,
+        scale: 1,
+        fade: 0.5,
         loop: true,
         onTap: (index) {
           print('点击了第${index + 1}张图片');
@@ -221,22 +222,26 @@ class _StarViewState extends State<StarView> {
 
   Widget _buildImage(String url, int flex) {
     return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(16)),
       child: Stack(
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(0),
-            child: CachedNetworkImage(
-              imageUrl: url,
-              fit: BoxFit.cover,
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: url,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Container(
             alignment: Alignment.bottomRight,
             padding: const EdgeInsets.only(
-              right: 10,
-              bottom: 10,
+              right: 20,
+              bottom: 20,
             ),
             child: Text(
               'test',
